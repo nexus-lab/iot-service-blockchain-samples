@@ -44,3 +44,6 @@ yarn-error.log*
 
 # vscode
 .vscode
+
+# configuration files
+config.yml

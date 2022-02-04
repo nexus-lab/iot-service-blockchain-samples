@@ -1,5 +1,5 @@
 import { Box, Collapse, Divider, Group, Paper, Text, ThemeIcon } from '@mantine/core';
-import moment from 'iot-service-blockchain/sdk/javascript/moment';
+import moment from 'moment';
 import { useState } from 'react';
 import {
   Box as BoxIcon,
@@ -14,40 +14,18 @@ import {
   Users as UsersIcon,
 } from 'react-feather';
 
+import ServiceRequestResponse from '../../types/requests';
 import Empty from '../misc/Empty';
 import VerticalDivider from '../misc/VerticalDivider';
 import PropertyList from './PropertyList';
 
-interface ServiceRequestInfoProps {
-  id: string;
-  time: moment.Moment;
-  service: { name: string; deviceId: string; organizationId: string };
-  method: string;
-  args?: string[];
-}
-
-interface ServiceResponseInfoProps {
-  requestId: string;
-  time: moment.Moment;
-  statusCode?: number;
-  returnValue?: string;
-}
-
-interface ServiceRequestResponseInfoProps {
-  request: ServiceRequestInfoProps;
-  response?: ServiceResponseInfoProps;
-}
-
-export default function ServiceRequestInfo({ request, response }: ServiceRequestResponseInfoProps) {
+export default function ServiceRequestInfo({ request, response }: ServiceRequestResponse) {
   const [expanded, setExpanded] = useState(false);
 
+  const formattedRequestTime = moment(request.time).format('YYYY-MM-DD HH:mm:ss');
   const requestProperties = [
     { name: 'Request ID', value: request.id, icon: <HashIcon size={16} /> },
-    {
-      name: 'Request Time',
-      value: request.time.format('YYYY-MM-DD HH:mm:ss'),
-      icon: <ClockIcon size={16} />,
-    },
+    { name: 'Request Time', value: formattedRequestTime, icon: <ClockIcon size={16} /> },
     { name: 'Service Name', value: request.service.name, icon: <RadioIcon size={16} /> },
     {
       name: 'Service Organization ID',
@@ -59,22 +37,15 @@ export default function ServiceRequestInfo({ request, response }: ServiceRequest
     { name: 'Request Arguments', value: request.args?.join('\n'), icon: <GridIcon size={16} /> },
   ];
 
+  const formattedResponseTime = moment(request.time).format('YYYY-MM-DD HH:mm:ss');
   const responseProperties = [
-    {
-      name: 'Response Time',
-      value: response?.time.format('YYYY-MM-DD HH:mm:ss'),
-      icon: <ClockIcon size={16} />,
-    },
+    { name: 'Response Time', value: formattedResponseTime, icon: <ClockIcon size={16} /> },
     {
       name: 'Response Status Code',
       value: response ? String(response?.statusCode) : undefined,
       icon: <TerminalIcon size={16} />,
     },
-    {
-      name: 'Response Return Value',
-      value: response?.returnValue,
-      icon: <FileIcon size={16} />,
-    },
+    { name: 'Response Return Value', value: response?.returnValue, icon: <FileIcon size={16} /> },
   ];
 
   return (
@@ -108,7 +79,7 @@ export default function ServiceRequestInfo({ request, response }: ServiceRequest
               <ClockIcon size={16} />
             </ThemeIcon>
             <Text size="sm" color="gray">
-              {request.time.format('YYYY-MM-DD HH:mm:ss')}
+              {formattedRequestTime}
             </Text>
           </Group>
         </Group>

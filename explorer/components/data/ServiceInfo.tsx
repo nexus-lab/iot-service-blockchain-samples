@@ -1,26 +1,18 @@
 import { Box, Button, Collapse, Divider, Group, Paper, Text, ThemeIcon } from '@mantine/core';
-import moment from 'iot-service-blockchain/sdk/javascript/moment';
+import moment from 'moment';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   Box as BoxIcon,
   Clock as ClockIcon,
   Copy as CopyIcon,
   Radio as RadioIcon,
-  Send as SendIcon,
   Tag as TagIcon,
   Users as UsersIcon,
 } from 'react-feather';
 
+import Service from '../../types/service';
 import PropertyList from './PropertyList';
-
-interface ServiceInfoProps {
-  name: string;
-  deviceId: string;
-  organizationId: string;
-  version: number;
-  description?: string;
-  lastUpdateTime: moment.Moment;
-}
 
 export default function ServiceInfo({
   name,
@@ -29,21 +21,27 @@ export default function ServiceInfo({
   version,
   description,
   lastUpdateTime,
-}: ServiceInfoProps) {
+}: Service) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
 
+  const formattedLastUpdateTime = moment(lastUpdateTime).format('YYYY-MM-DD HH:mm:ss');
   const properties = [
     { name: 'Name', value: name, icon: <TagIcon size={16} /> },
     { name: 'Device ID', value: deviceId, icon: <BoxIcon size={16} /> },
     { name: 'Organization ID', value: organizationId, icon: <UsersIcon size={16} /> },
     { name: 'Version', value: String(version), icon: <CopyIcon size={16} /> },
     { name: 'Description', value: description },
-    {
-      name: 'Last Update Time',
-      value: lastUpdateTime.format('YYYY-MM-DD HH:mm:ss'),
-      icon: <ClockIcon size={16} />,
-    },
+    { name: 'Last Update Time', value: formattedLastUpdateTime, icon: <ClockIcon size={16} /> },
   ];
+
+  const handleQuickLinkClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    void router.push({
+      pathname: '/requests',
+      query: { organizationId, deviceId, serviceName: name },
+    });
+  };
 
   return (
     <>
@@ -76,11 +74,11 @@ export default function ServiceInfo({
               <ClockIcon size={16} />
             </ThemeIcon>
             <Text size="sm" color="gray">
-              {lastUpdateTime.format('YYYY-MM-DD HH:mm:ss')}
+              {formattedLastUpdateTime}
             </Text>
           </Group>
-          <Button leftIcon={<SendIcon size={16} />} variant="light" size="xs">
-            Go to Requests
+          <Button variant="subtle" size="xs" onClick={handleQuickLinkClick}>
+            REQUESTS
           </Button>
         </Group>
       </Paper>

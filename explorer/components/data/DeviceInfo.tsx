@@ -1,24 +1,17 @@
 import { Box, Button, Collapse, Divider, Group, Paper, Text, ThemeIcon } from '@mantine/core';
-import moment from 'iot-service-blockchain/sdk/javascript/moment';
-import { useState } from 'react';
+import moment from 'moment';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
 import {
   Box as BoxIcon,
   Clock as ClockIcon,
   Hash as HashIcon,
-  Radio as RadioIcon,
   Tag as TagIcon,
   Users as UsersIcon,
 } from 'react-feather';
 
+import Device from '../../types/device';
 import PropertyList from './PropertyList';
-
-interface DeviceInfoProps {
-  id: string;
-  organizationId: string;
-  name?: string;
-  description?: string;
-  lastUpdateTime: moment.Moment;
-}
 
 export default function DeviceInfo({
   id,
@@ -26,20 +19,23 @@ export default function DeviceInfo({
   name,
   description,
   lastUpdateTime,
-}: DeviceInfoProps) {
+}: Device) {
+  const router = useRouter();
   const [expanded, setExpanded] = useState(false);
 
+  const formattedLastUpdateTime = moment(lastUpdateTime).format('YYYY-MM-DD HH:mm:ss');
   const properties = [
     { name: 'Name', value: name, icon: <TagIcon size={16} /> },
     { name: 'Device ID', value: id, icon: <HashIcon size={16} /> },
     { name: 'Organization ID', value: organizationId, icon: <UsersIcon size={16} /> },
     { name: 'Description', value: description },
-    {
-      name: 'Last Update Time',
-      value: lastUpdateTime.format('YYYY-MM-DD HH:mm:ss'),
-      icon: <ClockIcon size={16} />,
-    },
+    { name: 'Last Update Time', value: formattedLastUpdateTime, icon: <ClockIcon size={16} /> },
   ];
+
+  const handleQuickLinkClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    event.stopPropagation();
+    void router.push({ pathname: '/services', query: { organizationId, deviceId: id } });
+  };
 
   return (
     <>
@@ -64,11 +60,11 @@ export default function DeviceInfo({
               <ClockIcon size={16} />
             </ThemeIcon>
             <Text size="sm" color="gray">
-              {lastUpdateTime.format('YYYY-MM-DD HH:mm:ss')}
+              {formattedLastUpdateTime}
             </Text>
           </Group>
-          <Button leftIcon={<RadioIcon size={16} />} variant="light" size="xs">
-            Go to Services
+          <Button size="xs" variant="subtle" onClick={handleQuickLinkClick}>
+            SERVICES
           </Button>
         </Group>
       </Paper>

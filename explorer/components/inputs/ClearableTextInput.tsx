@@ -7,10 +7,10 @@ export default function ClearableTextInput({ value, onChange, ...props }: TextIn
   const ref = useRef<HTMLInputElement>(null);
   const [isClearButtonVisible, setClearButtonVisible] = useState(false);
 
-  const handleClear: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
+  const handleClearText: React.MouseEventHandler<HTMLButtonElement> = useCallback(() => {
     if (ref.current) {
       const inputPrototype = window.HTMLInputElement.prototype;
-      Object.getOwnPropertyDescriptor(inputPrototype, 'value')?.set?.call(ref.current.value, '');
+      Object.getOwnPropertyDescriptor(inputPrototype, 'value')?.set?.call(ref.current, '');
       ref.current.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }, []);
@@ -26,7 +26,7 @@ export default function ClearableTextInput({ value, onChange, ...props }: TextIn
       onChange={onChange}
       rightSection={
         isClearButtonVisible ? (
-          <ActionIcon onClick={handleClear} color="gray">
+          <ActionIcon onClick={handleClearText} color="gray">
             <XIcon size={16} />
           </ActionIcon>
         ) : null
