@@ -42,7 +42,7 @@ function ServicesPage({
     async () => {
       await router.push({
         pathname: router.pathname,
-        query: { deviceId, organizationId, initialServiceName },
+        query: { organizationId, deviceId, serviceName },
       });
       if (serviceName !== '') {
         return [await getService(organizationId, deviceId, serviceName)];

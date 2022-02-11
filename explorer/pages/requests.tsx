@@ -47,7 +47,7 @@ function RequestsPage({
     async () => {
       await router.push({
         pathname: router.pathname,
-        query: { requestId },
+        query: { organizationId, deviceId, serviceName, requestId },
       });
       if (requestId !== '') {
         return [await getServiceRequest(requestId)];
