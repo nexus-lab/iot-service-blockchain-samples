@@ -12,6 +12,8 @@ import {
 } from 'react-feather';
 
 import Service from '../../types/service';
+import Qrcode from '../misc/Qrcode';
+import VerticalDivider from '../misc/VerticalDivider';
 import PropertyList from './PropertyList';
 
 export default function ServiceInfo({
@@ -85,7 +87,25 @@ export default function ServiceInfo({
       <Collapse in={expanded}>
         <Divider />
         <Paper padding="md">
-          <PropertyList properties={properties} />
+          <Group sx={{ alignItems: 'flex-start' }}>
+            <PropertyList properties={properties} sx={{ flexGrow: 2, flexBasis: 1 }} />
+            <VerticalDivider />
+            <Box
+              sx={{
+                flexGrow: 1,
+                flexBasis: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                alignSelf: 'stretch',
+              }}>
+              <Qrcode
+                width={300}
+                height={300}
+                content={JSON.stringify({ organizationId, deviceId, name })}
+              />
+            </Box>
+          </Group>
         </Paper>
       </Collapse>
     </>
