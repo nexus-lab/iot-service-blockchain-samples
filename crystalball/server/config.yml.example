@@ -1,0 +1,57 @@
+stream:
+  addr: 127.0.0.1:1935
+  key: secret_key
+
+client:
+  organization_id: Org2MSP
+  device_name: surveillance_camera_01
+  device_description: A demo surveillance camera
+  service_name: streaming
+  service_version: 1
+  service_description: A demo surveillance camera feed streaming service
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICmTCCAkCgAwIBAgIUfluHpENvhOLf8y/qO4BBAdLAt88wCgYIKoZIzj0EAwIw
+    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
+    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
+    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMTExNjQ0MDBaFw0yMzAyMTExNjQ5MDBaMF0x
+    CzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChML
+    SHlwZXJsZWRnZXIxDzANBgNVBAsTBmNsaWVudDEOMAwGA1UEAxMFdXNlcjEwWTAT
+    BgcqhkjOPQIBBggqhkjOPQMBBwNCAARQvE8tS932/ME08JFDpKcw5YagOo65k3Cj
+    rv/XYX+EySY+PL2XFpQjaRfFWfTpwMYiLncneMfnuXd+wU3Fglddo4HOMIHLMA4G
+    A1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSmpW8zZ5kb5b+w
+    eqASl5iWV8hluzAfBgNVHSMEGDAWgBQTWE347aIIypzmzQq3iwqdFR4haTARBgNV
+    HREECjAIggZIb21lUEMwWAYIKgMEBQYHCAEETHsiYXR0cnMiOnsiaGYuQWZmaWxp
+    YXRpb24iOiIiLCJoZi5FbnJvbGxtZW50SUQiOiJ1c2VyMSIsImhmLlR5cGUiOiJj
+    bGllbnQifX0wCgYIKoZIzj0EAwIDRwAwRAIgZt5zz/C+v1Fij8IXQoov8pZBAqfT
+    wyl6wc1CnQcK2xkCIG/FCkgKtzCJjbzC1qWfXKKZqlCmyVF9HQRgYJGCqKsI
+    -----END CERTIFICATE-----
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgj0yiEh/jeUjlTJte
+    j81nvnA9siTaKmFYG5PmirYMI3ahRANCAARQvE8tS932/ME08JFDpKcw5YagOo65
+    k3Cjrv/XYX+EySY+PL2XFpQjaRfFWfTpwMYiLncneMfnuXd+wU3Fgldd
+    -----END PRIVATE KEY-----
+
+gateway:
+  endpoint: localhost:9051
+  server_name: peer0.org2.example.com
+  tls_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICHzCCAcWgAwIBAgIUWgGr+cCpb+Z7XZQAI2V+krUYrdowCgYIKoZIzj0EAwIw
+    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
+    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
+    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMTExNjQ0MDBaFw0zNzAyMDcxNjQ0MDBaMGwx
+    CzAJBgNVBAYTAlVLMRIwEAYDVQQIEwlIYW1wc2hpcmUxEDAOBgNVBAcTB0h1cnNs
+    ZXkxGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2NhLm9yZzIu
+    ZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASKbLOJR3O32Py3
+    7ZpRKs1VsYucgFl3w0VaeujhoY07prY2xFHLnAKymyLVTyMi5cj/Bv4ud2FNEvb7
+    1fq9ozWXo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd
+    BgNVHQ4EFgQUE1hN+O2iCMqc5s0Kt4sKnRUeIWkwCgYIKoZIzj0EAwIDSAAwRQIh
+    AIpZknJmW20jdOhsXZBVnNFdDbGY7qhFCdC8KJRLRBK1AiB0wLwsTfR5ex6YtdFM
+    dfPE4h1vbahtE+PUb2eR7gf8nQ==
+    -----END CERTIFICATE-----
+
+network:
+  name: mychannel
+  chaincode: iotservice
