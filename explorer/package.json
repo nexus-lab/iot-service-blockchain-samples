@@ -15,7 +15,7 @@
     "@mantine/hooks": "^3.6.7",
     "@mantine/next": "^3.6.7",
     "@mantine/notifications": "^3.6.7",
-    "@nexus-lab/iot-service-blockchain": "^0.0.2",
+    "@nexus-lab/iot-service-blockchain": "^0.0.4",
     "@zxing/browser": "^0.1.1",
     "@zxing/library": "^0.19.1",
     "axios": "^0.25.0",
