@@ -19,7 +19,9 @@ export default function PropertyList({ properties, ...props }: PropertyListProps
           <Text weight={600} size="xs">
             {name}
           </Text>
-          <Text sx={{ wordBreak: 'break-all' }}>{value ?? '(NOT SET)'}</Text>
+          <Text sx={{ wordBreak: 'break-all' }}>
+            {value === undefined ? '(NOT SET)' : value === '' ? '(EMPTY)' : value}
+          </Text>
         </List.Item>
       ))}
     </List>
