@@ -1,0 +1,186 @@
+<resources>
+
+    <style name="TextAppearance.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">98sp</item>
+    </style>
+
+    <style name="TextAppearance.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">61sp</item>
+    </style>
+
+    <style name="TextAppearance.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">49sp</item>
+    </style>
+
+    <style name="TextAppearance.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">35sp</item>
+    </style>
+
+    <style name="TextAppearance.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="TextAppearance.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="TextAppearance.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="TextAppearance.Body2" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextAppearance.Overline" parent="TextAppearance.MaterialComponents.Overline">
+        <item name="fontFamily">@font/raleway</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TextAppearance.AppBarTitle" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/lobster</item>
+        <item name="android:fontFamily">@font/lobster</item>
+    </style>
+
+    <style name="ThemeOverlay.Toolbar" parent="">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/blue_grey_50</item>
+        <item name="colorOnPrimary">@color/blue_grey_900</item>
+        <item name="colorControlNormal">@color/blue_grey_900</item>
+        <item name="colorControlHighlight">@color/blue_grey_200</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.Toolbar</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+    </style>
+
+    <style name="Widget.Toolbar.Home" parent="Widget.Toolbar">
+        <item name="titleTextAppearance">@style/TextAppearance.AppBarTitle</item>
+    </style>
+
+    <style name="Widget.TextView" parent="android:Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.Body1</item>
+    </style>
+
+    <style name="Widget.TextView.SectionHeader" parent="Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.Overline</item>
+        <item name="android:textColor">@color/blue_grey_600</item>
+        <item name="android:layout_marginTop">@dimen/space_3</item>
+        <item name="android:layout_marginBottom">@dimen/space_2</item>
+    </style>
+
+    <style name="Widget.Button" parent="android:Widget.Holo.Button">
+        <item name="android:textAppearance">@style/TextAppearance.Button</item>
+    </style>
+
+    <style name="ThemeOverlay.TextInputLayout" parent="">
+        <item name="colorPrimary">@color/blue_grey_900</item>
+        <item name="colorSecondary">@color/blue_a700</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Body1</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Caption</item>
+        <item name="editTextStyle">
+            @style/Widget.MaterialComponents.TextInputEditText.OutlinedBox
+        </item>
+    </style>
+
+    <style name="Widget.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TextInputLayout</item>
+        <item name="colorOnSurface">@color/blue_grey_900</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="android:textColorHint">@color/blue_grey_600</item>
+    </style>
+
+    <style name="ThemeOverlay.FloatingActionButton" parent="">
+        <item name="colorSecondary">@color/blue_a700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+    </style>
+
+    <style name="Widget.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.FloatingActionButton</item>
+    </style>
+
+    <style name="ThemeOverlay.AlertDialog" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearanceOverlay.CornerSize8dp</item>
+    </style>
+
+    <style name="ThemeOverlay.AlertDialog.Title" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.Subtitle1</item>
+    </style>
+
+    <style name="Widget.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/ThemeOverlay.AlertDialog</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/ThemeOverlay.AlertDialog.Title</item>
+    </style>
+
+    <style name="ThemeOverlay.ListItem" parent="">
+        <item name="colorControlHighlight">@color/blue_grey_200</item>
+    </style>
+
+    <style name="Widget.ListItem" parent="">
+        <item name="android:theme">@style/ThemeOverlay.ListItem</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ThemeOverlay.ControlBar.Transparent" parent="">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+    </style>
+
+    <style name="Widget.ControlBar.Transparent" parent="">
+        <item name="android:theme">@style/ThemeOverlay.ControlBar.Transparent</item>
+        <item name="android:background">@color/transparent_75</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.CornerSize4dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.CornerSize8dp" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+</resources>

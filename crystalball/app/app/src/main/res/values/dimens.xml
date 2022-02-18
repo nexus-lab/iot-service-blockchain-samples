@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_0">4dp</dimen>
+    <dimen name="space_1">8dp</dimen>
+    <dimen name="space_2">16dp</dimen>
+    <dimen name="space_3">32dp</dimen>
+    <dimen name="divider_start">96dp</dimen>
+    <dimen name="divider_end">@dimen/space_2</dimen>
+    <dimen name="screenshot_w1">64dp</dimen>
+    <dimen name="screenshot_h1">36dp</dimen>
+</resources>

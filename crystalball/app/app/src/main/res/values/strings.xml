@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Crystalball</string>
+    <string name="title_service_details">Service Details</string>
+    <string name="title_service_add">Add Service</string>
+    <string name="title_service_edit">Edit Service</string>
+    <string name="title_settings">Settings</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_add_manually">Add Service Manually</string>
+    <string name="action_add_by_scanning">Add Service by Scanning Qrcode</string>
+    <string name="action_refresh_service">Refresh Service</string>
+    <string name="action_edit_service">Edit Service</string>
+    <string name="action_delete_service">Delete Service</string>
+    <string name="action_import_settings">Import Settings</string>
+    <string name="action_export_settings">Export Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_save_settings">Save Settings</string>
+    <string name="icon_screenshot">Screenshot</string>
+    <string name="input_organization_id">Organization ID</string>
+    <string name="input_device_id">Device ID</string>
+    <string name="input_service_name">Service Name</string>
+    <string name="input_client_certificate">Client Certificate</string>
+    <string name="input_client_private_key">Client Private Key</string>
+    <string name="input_gateway_endpoint">Gateway Endpoint</string>
+    <string name="input_gateway_server_name">Gateway Server Name</string>
+    <string name="input_gateway_tls_certificate">Gateway TLS Certificate</string>
+    <string name="input_network_name">Network/Channel Name</string>
+    <string name="input_network_chaincode_name">Chaincode Name</string>
+    <string name="section_header_client_settings">Client Settings</string>
+    <string name="section_header_gateway_settings">Gateway Settings</string>
+    <string name="section_header_network_settings">Network Settings</string>
+    <string name="text_organization_id">Organization ID</string>
+    <string name="text_device_id">Device ID</string>
+    <string name="text_device_name">Device Name</string>
+    <string name="text_device_description">Device Description</string>
+    <string name="text_device_last_update_time">Device Last Update Time</string>
+    <string name="text_service_name">Service Name</string>
+    <string name="text_service_version">Service Version</string>
+    <string name="text_service_description">Service Description</string>
+    <string name="text_service_last_update_time">Service Last Update Time</string>
+    <string name="transition_main_to_details">transition_main_to_details</string>
+    <string name="transition_details_to_player">transition_details_to_player</string>
+</resources>

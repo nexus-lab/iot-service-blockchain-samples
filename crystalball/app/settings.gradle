@@ -1,0 +1,27 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+def githubProperties = new Properties()
+githubProperties.load(new FileInputStream("github.properties"))
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/nexus-lab/iot-service-blockchain")
+            credentials {
+                username = githubProperties["gpr.user"] ?: System.getenv("GITHUB_USERNAME")
+                password = githubProperties["gpr.key"] ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+rootProject.name = "Crystalball"
+include ':app'
