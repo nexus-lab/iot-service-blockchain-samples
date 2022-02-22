@@ -1,0 +1,43 @@
+<resources>
+
+    <style name="Theme.Base" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/blue_a700</item>
+        <item name="colorPrimaryVariant">@color/blue_a400</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/blue_grey_900</item>
+
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:statusBarColor">@color/blue_grey_900</item>
+        <item name="android:navigationBarColor">@color/blue_grey_900</item>
+        <item name="android:colorEdgeEffect">@color/blue_grey_600</item>
+        <item name="android:textColor">@color/blue_grey_900</item>
+        <item name="android:textViewStyle">@style/Widget.TextView</item>
+        <item name="android:buttonStyle">@style/Widget.Button</item>
+
+        <item name="textInputStyle">@style/Widget.TextInputLayout</item>
+        <item name="floatingActionButtonStyle">@style/Widget.FloatingActionButton</item>
+        <item name="materialAlertDialogTheme">@style/Widget.AlertDialog</item>
+    </style>
+
+    <style name="Theme" parent="Theme.Base" />
+
+    <style name="Theme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="toolbarStyle">@style/Widget.Toolbar</item>
+    </style>
+
+    <style name="Theme.NoActionBar.Home" parent="Theme.NoActionBar">
+        <item name="toolbarStyle">@style/Widget.Toolbar.Home</item>
+    </style>
+
+    <style name="Theme.NoActionBar.Fullscreen" parent="Theme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="Theme.AppBar" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+
+    <style name="Theme.Popup" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

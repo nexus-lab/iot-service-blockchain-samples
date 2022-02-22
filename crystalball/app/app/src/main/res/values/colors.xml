@@ -1,0 +1,14 @@
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="grey_200">#EEEEEE</color>
+    <color name="blue_a400">#2979FF</color>
+    <color name="blue_a700">#2962FF</color>
+    <color name="blue_grey_50">#ECEFF1</color>
+    <color name="blue_grey_200">#B0BEC5</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_900">#263238</color>
+
+    <color name="divider">@color/blue_grey_50</color>
+    <color name="transparent_75">#C0000000</color>
+</resources>

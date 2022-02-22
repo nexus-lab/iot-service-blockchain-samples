@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.nexus_lab.iot_service_blockchain.sample.crystalball.MainActivity">
+    <item
+        android:id="@+id/action_add_manually"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:orderInCategory="1"
+        android:title="@string/action_add_manually"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_add_by_scanning"
+        android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+        android:orderInCategory="2"
+        android:title="@string/action_add_by_scanning"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
+</menu>
