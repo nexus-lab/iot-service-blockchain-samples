@@ -93,7 +93,6 @@
 
     <style name="Widget.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Toolbar</item>
-        <item name="titleTextAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
     </style>
 
     <style name="Widget.Toolbar.Home" parent="Widget.Toolbar">

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.nexus_lab.iot_service_blockchain.sample.crystalball.SettingsActivity">
+    tools:context=".settings.SettingsActivity">
     <item
         android:id="@+id/action_import"
         android:icon="@drawable/ic_baseline_exit_to_app_24"

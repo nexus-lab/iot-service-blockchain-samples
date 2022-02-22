@@ -41,4 +41,16 @@
     <string name="text_service_last_update_time">Service Last Update Time</string>
     <string name="transition_main_to_details">transition_main_to_details</string>
     <string name="transition_details_to_player">transition_details_to_player</string>
+    <string name="alert_qrcode_scanning_failed">Failed to scan and decode QR code.</string>
+    <string name="alert_qrcode_invalid">Invalid QR code.</string>
+    <string name="alert_permission_denied">Permission is denied.</string>
+    <string name="alert_file_not_found">File is not found.</string>
+    <string name="alert_settings_invalid">Settings are invalid.</string>
+    <string name="alert_settings_saved">Settings are saved.</string>
+    <string name="alert_settings_exported">Settings are exported.</string>
+    <string name="alert_settings_export_failed">Failed to export settings.</string>
+    <string name="alert_settings_imported">Settings are imported.</string>
+    <string name="alert_profile_not_found">Profile is not found.</string>
+    <string name="mime_type_json">application/json</string>
+    <string name="file_settings_default">settings.json</string>
 </resources>
