@@ -8,9 +8,11 @@ import android.view.MenuItem;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.R;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.databinding.ActivitySettingsBinding;
 
@@ -21,7 +23,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 public class SettingsActivity extends AppCompatActivity {
-    private ActivitySettingsBinding binding;
+    private SettingsRepository mRepository;
+    private ActivitySettingsBinding mViewBinding;
 
     private final ActivityResultLauncher<String[]> importFileLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
         if (uri == null) {
@@ -30,21 +33,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         try {
             InputStream input = getContentResolver().openInputStream(uri);
-            Settings settings = Settings.deserialize(input);
-            settings.validate();
-            settings.save(this);
-            setUiWithSettings(settings);
+            mRepository.set(SettingsRepository.deserialize(input));
 
-            if (binding != null) {
-                Snackbar.make(binding.getRoot(), R.string.alert_settings_imported, Snackbar.LENGTH_LONG).show();
+            if (mViewBinding != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_settings_imported, Snackbar.LENGTH_LONG).show();
             }
         } catch (FileNotFoundException e) {
-            if (binding != null) {
-                Snackbar.make(binding.getRoot(), R.string.alert_file_not_found, Snackbar.LENGTH_LONG).show();
-            }
-        } catch (Settings.InvalidSettingsException e) {
-            if (binding != null) {
-                Snackbar.make(binding.getRoot(), R.string.alert_settings_invalid, Snackbar.LENGTH_LONG).show();
+            if (mViewBinding != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_file_not_found, Snackbar.LENGTH_LONG).show();
             }
         }
     });
@@ -55,19 +51,19 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         try {
-            Settings settings = Settings.load(this);
+            Settings settings = mRepository.get();
             ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(uri, "w");
             FileOutputStream output = new FileOutputStream(descriptor.getFileDescriptor());
-            output.write(settings.serialize().getBytes(StandardCharsets.UTF_8));
+            output.write(SettingsRepository.serialize(settings).getBytes(StandardCharsets.UTF_8));
             output.close();
             descriptor.close();
 
-            if (binding != null) {
-                Snackbar.make(binding.getRoot(), R.string.alert_settings_exported, Snackbar.LENGTH_LONG).show();
+            if (mViewBinding != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_settings_exported, Snackbar.LENGTH_LONG).show();
             }
         } catch (IOException e) {
-            if (binding != null) {
-                Snackbar.make(binding.getRoot(), R.string.alert_settings_export_failed, Snackbar.LENGTH_LONG).show();
+            if (mViewBinding != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_settings_export_failed, Snackbar.LENGTH_LONG).show();
             }
         }
     });
@@ -76,34 +72,33 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        mViewBinding = ActivitySettingsBinding.inflate(getLayoutInflater());
+        mRepository = ((App) getApplication()).getSettingsRepository();
 
+        setContentView(mViewBinding.getRoot());
         setTitle(R.string.title_settings);
 
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(mViewBinding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        binding.saveSettings.setOnClickListener(v -> {
-            try {
-                Settings settings = getSettingsFromUi();
-                settings.validate();
-                settings.save(this);
+        mViewBinding.saveSettings.setOnClickListener(v -> {
+            Settings settings = getSettingsFromUi();
+            mRepository.set(settings);
 
-                if (binding != null) {
-                    Snackbar.make(binding.getRoot(), R.string.alert_settings_saved, Snackbar.LENGTH_LONG).show();
-                }
-            } catch (Settings.InvalidSettingsException e) {
-                if (binding != null) {
-                    Snackbar.make(binding.getRoot(), R.string.alert_settings_invalid, Snackbar.LENGTH_LONG).show();
-                }
+            if (mViewBinding != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_settings_saved, Snackbar.LENGTH_LONG).show();
             }
         });
 
-        setUiWithSettings(Settings.load(this));
+        mRepository.getObservable().observe(this, settings -> {
+            if (settings != null) {
+                updateUi(settings);
+            }
+        });
+
     }
 
     @Override
@@ -133,81 +128,66 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        binding = null;
+        mViewBinding = null;
     }
 
     private Settings getSettingsFromUi() {
-        Settings settings = new Settings();
-        Settings.ClientSettings client = new Settings.ClientSettings();
-        Settings.GatewaySettings gateway = new Settings.GatewaySettings();
-        Settings.NetworkSettings network = new Settings.NetworkSettings();
-        settings.setGateway(gateway);
-        settings.setNetwork(network);
-        settings.setClient(client);
+        Settings.Builder settingsBuilder = new Settings.Builder();
+        ClientSettings.Builder clientBuilder = new ClientSettings.Builder();
+        GatewaySettings.Builder gatewayBuilder = new GatewaySettings.Builder();
+        NetworkSettings.Builder networkBuilder = new NetworkSettings.Builder();
 
-        if (binding != null) {
-            client.setOrganizationId(
-                    binding.organizationId.getText() == null
-                            ? ""
-                            : binding.organizationId.getText().toString()
-            );
-            client.setCertificate(
-                    binding.clientCertificate.getText() == null
-                            ? ""
-                            : binding.clientCertificate.getText().toString()
-            );
-            client.setPrivateKey(
-                    binding.clientPrivateKey.getText() == null
-                            ? ""
-                            : binding.clientPrivateKey.getText().toString()
-            );
+        if (mViewBinding != null) {
+            if (mViewBinding.organizationId.getText() != null) {
+                clientBuilder.setOrganizationId(mViewBinding.organizationId.getText().toString());
+            }
+            if (mViewBinding.clientCertificate.getText() != null) {
+                clientBuilder.setCertificate(mViewBinding.clientCertificate.getText().toString());
+            }
+            if (mViewBinding.clientPrivateKey.getText() != null) {
+                clientBuilder.setPrivateKey(mViewBinding.clientPrivateKey.getText().toString());
+            }
 
-            gateway.setEndpoint(
-                    binding.gatewayEndpoint.getText() == null
-                            ? ""
-                            : binding.gatewayEndpoint.getText().toString()
-            );
-            gateway.setServerName(
-                    binding.gatewayServerName.getText() == null
-                            ? ""
-                            : binding.gatewayServerName.getText().toString()
-            );
-            gateway.setTlsCertificate(
-                    binding.gatewayTlsCertificate.getText() == null
-                            ? ""
-                            : binding.gatewayTlsCertificate.getText().toString()
-            );
+            if (mViewBinding.gatewayEndpoint.getText() != null) {
+                gatewayBuilder.setEndpoint(mViewBinding.gatewayEndpoint.getText().toString());
+            }
+            if (mViewBinding.gatewayServerName.getText() != null) {
+                gatewayBuilder.setServerName(mViewBinding.gatewayServerName.getText().toString());
+            }
+            if (mViewBinding.gatewayTlsCertificate.getText() != null) {
+                gatewayBuilder.setTlsCertificate(mViewBinding.gatewayTlsCertificate.getText().toString());
+            }
 
-            network.setName(
-                    binding.networkName.getText() == null
-                            ? ""
-                            : binding.networkName.getText().toString()
-            );
-            network.setChaincode(
-                    binding.networkChaincodeName.getText() == null
-                            ? ""
-                            : binding.networkChaincodeName.getText().toString()
-            );
+            if (mViewBinding.networkName.getText() != null) {
+                networkBuilder.setName(mViewBinding.networkName.getText().toString());
+            }
+            if (mViewBinding.networkChaincodeName.getText() != null) {
+                networkBuilder.setChaincode(mViewBinding.networkChaincodeName.getText().toString());
+            }
         }
 
-        return settings;
+        return settingsBuilder
+                .setClient(clientBuilder)
+                .setGateway(gatewayBuilder)
+                .setNetwork(networkBuilder)
+                .build();
     }
 
-    private void setUiWithSettings(Settings settings) {
-        if (binding != null) {
+    private void updateUi(Settings settings) {
+        if (mViewBinding != null) {
             if (settings.getClient() != null) {
-                binding.organizationId.setText(settings.getClient().getOrganizationId());
-                binding.clientCertificate.setText(settings.getClient().getCertificate());
-                binding.clientPrivateKey.setText(settings.getClient().getPrivateKey());
+                mViewBinding.organizationId.setText(settings.getClient().getOrganizationId());
+                mViewBinding.clientCertificate.setText(settings.getClient().getCertificate());
+                mViewBinding.clientPrivateKey.setText(settings.getClient().getPrivateKey());
             }
             if (settings.getGateway() != null) {
-                binding.gatewayEndpoint.setText(settings.getGateway().getEndpoint());
-                binding.gatewayServerName.setText(settings.getGateway().getServerName());
-                binding.gatewayTlsCertificate.setText(settings.getGateway().getTlsCertificate());
+                mViewBinding.gatewayEndpoint.setText(settings.getGateway().getEndpoint());
+                mViewBinding.gatewayServerName.setText(settings.getGateway().getServerName());
+                mViewBinding.gatewayTlsCertificate.setText(settings.getGateway().getTlsCertificate());
             }
             if (settings.getNetwork() != null) {
-                binding.networkName.setText(settings.getNetwork().getName());
-                binding.networkChaincodeName.setText(settings.getNetwork().getChaincode());
+                mViewBinding.networkName.setText(settings.getNetwork().getName());
+                mViewBinding.networkChaincodeName.setText(settings.getNetwork().getChaincode());
             }
         }
     }

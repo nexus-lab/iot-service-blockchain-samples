@@ -1,210 +1,115 @@
 package org.nexus_lab.iot_service_blockchain.sample.crystalball.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import androidx.annotation.Nullable;
 
-import com.owlike.genson.Genson;
-
-import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
-
-import java.io.InputStream;
+import java.util.Objects;
 
 public class Settings {
-    private final static Genson GENSON = new Genson();
-    private final static String PREFERENCE_NAME = "settings";
     @Nullable
-    private ClientSettings client;
+    private ClientSettings mClient;
     @Nullable
-    private GatewaySettings gateway;
+    private GatewaySettings mGateway;
     @Nullable
-    private NetworkSettings network;
+    private NetworkSettings mNetwork;
 
-    public static Settings deserialize(InputStream input) {
-        return GENSON.deserialize(input, Settings.class);
-    }
-
-    public static Settings deserialize(String input) {
-        return GENSON.deserialize(input, Settings.class);
-    }
-
-    public static Settings load(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(App.PREFERENCE_DEFAULT_NAME, Context.MODE_PRIVATE);
-        String raw = preferences.getString(PREFERENCE_NAME, "");
-        if (raw.isEmpty()) {
-            return new Settings();
-        }
-        return deserialize(raw);
+    Settings() {
     }
 
     @Nullable
     public ClientSettings getClient() {
-        return client;
+        return mClient;
     }
 
-    public void setClient(@Nullable ClientSettings client) {
-        this.client = client;
+    void setClient(@Nullable ClientSettings client) {
+        mClient = client;
     }
 
     @Nullable
     public GatewaySettings getGateway() {
-        return gateway;
+        return mGateway;
     }
 
-    public void setGateway(@Nullable GatewaySettings gateway) {
-        this.gateway = gateway;
+    void setGateway(@Nullable GatewaySettings gateway) {
+        mGateway = gateway;
     }
 
     @Nullable
     public NetworkSettings getNetwork() {
-        return network;
+        return mNetwork;
     }
 
-    public void setNetwork(@Nullable NetworkSettings network) {
-        this.network = network;
+    void setNetwork(@Nullable NetworkSettings network) {
+        mNetwork = network;
     }
 
-    public void validate() throws InvalidSettingsException {
-        if (client == null || gateway == null || network == null) {
-            throw new InvalidSettingsException();
+    public Builder asBuilder() {
+        Builder builder = new Builder();
+        if (getClient() != null) {
+            builder.setClient(getClient().asBuilder());
         }
-        client.validate();
-        gateway.validate();
-        network.validate();
+        if (getGateway() != null) {
+            builder.setGateway(getGateway().asBuilder());
+        }
+        if (getNetwork() != null) {
+            builder.setNetwork(getNetwork().asBuilder());
+        }
+        return builder;
     }
 
-    public String serialize() {
-        return GENSON.serialize(this);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Settings that = (Settings) o;
+        return Objects.equals(getClient(), that.getClient())
+                && Objects.equals(getGateway(), that.getGateway())
+                && Objects.equals(getNetwork(), that.getNetwork());
     }
 
-    public void save(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(App.PREFERENCE_DEFAULT_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREFERENCE_NAME, serialize());
-        editor.apply();
+    @Override
+    public int hashCode() {
+        return Objects.hash(getClient(), getGateway(), getNetwork());
     }
 
-    public static class InvalidSettingsException extends Exception {
-    }
-
-    public static class ClientSettings {
+    public static class Builder {
         @Nullable
-        private String organizationId;
-
+        private ClientSettings.Builder mClient;
         @Nullable
-        private String certificate;
-
+        private GatewaySettings.Builder mGateway;
         @Nullable
-        private String privateKey;
+        private NetworkSettings.Builder mNetwork;
 
-        @Nullable
-        public String getOrganizationId() {
-            return organizationId;
+        public Builder setClient(@Nullable ClientSettings.Builder client) {
+            mClient = client;
+            return this;
         }
 
-        public void setOrganizationId(@Nullable String organizationId) {
-            this.organizationId = organizationId;
+        public Builder setGateway(@Nullable GatewaySettings.Builder gateway) {
+            mGateway = gateway;
+            return this;
         }
 
-        @Nullable
-        public String getCertificate() {
-            return certificate;
+        public Builder setNetwork(@Nullable NetworkSettings.Builder network) {
+            mNetwork = network;
+            return this;
         }
 
-        public void setCertificate(@Nullable String certificate) {
-            this.certificate = certificate;
-        }
-
-        @Nullable
-        public String getPrivateKey() {
-            return privateKey;
-        }
-
-        public void setPrivateKey(@Nullable String privateKey) {
-            this.privateKey = privateKey;
-        }
-
-        public void validate() throws InvalidSettingsException {
-            if (organizationId == null || certificate == null || privateKey == null) {
-                throw new InvalidSettingsException();
+        public Settings build() {
+            Settings settings = new Settings();
+            if (mClient != null) {
+                settings.setClient(mClient.build());
             }
-        }
-    }
-
-    public static class GatewaySettings {
-        @Nullable
-        private String endpoint;
-
-        @Nullable
-        private String serverName;
-
-        @Nullable
-        private String tlsCertificate;
-
-        @Nullable
-        public String getEndpoint() {
-            return endpoint;
-        }
-
-        public void setEndpoint(@Nullable String endpoint) {
-            this.endpoint = endpoint;
-        }
-
-        @Nullable
-        public String getServerName() {
-            return serverName;
-        }
-
-        public void setServerName(@Nullable String serverName) {
-            this.serverName = serverName;
-        }
-
-        @Nullable
-        public String getTlsCertificate() {
-            return tlsCertificate;
-        }
-
-        public void setTlsCertificate(@Nullable String tlsCertificate) {
-            this.tlsCertificate = tlsCertificate;
-        }
-
-        public void validate() throws InvalidSettingsException {
-            if (endpoint == null || serverName == null || tlsCertificate == null) {
-                throw new InvalidSettingsException();
+            if (mGateway != null) {
+                settings.setGateway(mGateway.build());
             }
-        }
-    }
-
-    public static class NetworkSettings {
-        @Nullable
-        private String name;
-
-        @Nullable
-        private String chaincode;
-
-        @Nullable
-        public String getName() {
-            return name;
-        }
-
-        public void setName(@Nullable String name) {
-            this.name = name;
-        }
-
-        @Nullable
-        public String getChaincode() {
-            return chaincode;
-        }
-
-        public void setChaincode(@Nullable String chaincode) {
-            this.chaincode = chaincode;
-        }
-
-        public void validate() throws InvalidSettingsException {
-            if (name == null || chaincode == null) {
-                throw new InvalidSettingsException();
+            if (mNetwork != null) {
+                settings.setNetwork(mNetwork.build());
             }
+            return settings;
         }
     }
 }

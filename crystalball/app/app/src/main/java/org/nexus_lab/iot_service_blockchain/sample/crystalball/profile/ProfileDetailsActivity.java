@@ -11,44 +11,43 @@ import androidx.core.app.ActivityOptionsCompat;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
-import org.nexus_lab.iot_service_blockchain.sample.crystalball.PlayerActivity;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.R;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.databinding.ActivityServiceDetailsBinding;
+import org.nexus_lab.iot_service_blockchain.sample.crystalball.player.PlayerActivity;
 
 public class ProfileDetailsActivity extends AppCompatActivity {
     public final static String ARG_PROFILE_ID = "PROFILE_ID";
 
     private String mId;
     private ProfileRepository mRepository;
-    private ActivityServiceDetailsBinding mBinding;
+    private ActivityServiceDetailsBinding mViewBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBinding = ActivityServiceDetailsBinding.inflate(getLayoutInflater());
+        mViewBinding = ActivityServiceDetailsBinding.inflate(getLayoutInflater());
         mRepository = ((App) getApplication()).getProfileRepository();
 
         Intent intent = getIntent();
         mId = intent.getStringExtra(ARG_PROFILE_ID);
         if (mId == null || mRepository.get(mId) == null) {
-            Snackbar.make(mBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
-            finish();
+            Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
+            supportFinishAfterTransition();
             return;
         }
 
-        setContentView(mBinding.getRoot());
-
+        setContentView(mViewBinding.getRoot());
         setTitle(R.string.title_service_details);
 
-        setSupportActionBar(mBinding.toolbar);
+        setSupportActionBar(mViewBinding.toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        mBinding.play.setOnClickListener(v -> {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mBinding.play, getString(R.string.transition_details_to_player));
+        mViewBinding.play.setOnClickListener(v -> {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mViewBinding.play, getString(R.string.transition_details_to_player));
             startActivity(new Intent(ProfileDetailsActivity.this, PlayerActivity.class), options.toBundle());
         });
 
@@ -98,20 +97,20 @@ public class ProfileDetailsActivity extends AppCompatActivity {
     }
 
     private void updateUi(Profile profile) {
-        mBinding.serviceName.setText(profile.getServiceName());
+        mViewBinding.serviceName.setText(profile.getServiceName());
         if (profile.getServiceVersion() != null) {
-            mBinding.serviceVersion.setText(String.valueOf(profile.getServiceVersion()));
+            mViewBinding.serviceVersion.setText(String.valueOf(profile.getServiceVersion()));
         }
-        mBinding.serviceDescription.setText(profile.getServiceDescription());
+        mViewBinding.serviceDescription.setText(profile.getServiceDescription());
         if (profile.getServiceLastUpdateTime() != null) {
-            mBinding.serviceLastUpdateTime.setText(profile.getServiceLastUpdateTime().toString());
+            mViewBinding.serviceLastUpdateTime.setText(profile.getServiceLastUpdateTime().toString());
         }
-        mBinding.organizationId.setText(profile.getOrganizationId());
-        mBinding.deviceId.setText(profile.getDeviceId());
-        mBinding.deviceName.setText(profile.getDeviceName());
-        mBinding.deviceDescription.setText(profile.getDeviceDescription());
+        mViewBinding.organizationId.setText(profile.getOrganizationId());
+        mViewBinding.deviceId.setText(profile.getDeviceId());
+        mViewBinding.deviceName.setText(profile.getDeviceName());
+        mViewBinding.deviceDescription.setText(profile.getDeviceDescription());
         if (profile.getDeviceLastUpdateTime() != null) {
-            mBinding.deviceLastUpdateTime.setText(profile.getDeviceLastUpdateTime().toString());
+            mViewBinding.deviceLastUpdateTime.setText(profile.getDeviceLastUpdateTime().toString());
         }
     }
 }

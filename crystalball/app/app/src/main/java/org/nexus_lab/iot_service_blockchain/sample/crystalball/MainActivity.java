@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
         if (result instanceof QRResult.QRSuccess) {
             String value = ((QRResult.QRSuccess) result).getContent().getRawValue();
             try {
-                Profile profile = Profile.deserialize(value);
+                Profile profile = ProfileRepository.deserialize(value);
                 mRepository.add(profile);
             } catch (JsonBindingException | JsonStreamException e) {
                 if (mViewBinding != null) {

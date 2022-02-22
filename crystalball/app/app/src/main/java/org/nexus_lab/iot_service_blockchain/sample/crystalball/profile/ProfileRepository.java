@@ -3,16 +3,28 @@ package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.owlike.genson.Genson;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProfileRepository {
+    private final static Genson GENSON = new Genson();
+
     private final ProfileDataSource mDataSource;
     private final MutableLiveData<List<Profile>> mProfiles;
 
     public ProfileRepository(ProfileDataSource dataSource) {
         mDataSource = dataSource;
         mProfiles = new MutableLiveData<>();
+    }
+
+    public static Profile deserialize(String json) {
+        return GENSON.deserialize(json, Profile.class).asBuilder().build();
+    }
+
+    public static String serialize(Profile profile) {
+        return GENSON.serialize(profile);
     }
 
     private List<Profile> copyOf(List<Profile> original) {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:transitionName="@string/transition_details_to_player"
-    tools:context=".PlayerActivity">
+    tools:context=".player.PlayerActivity">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player"

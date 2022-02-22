@@ -45,12 +45,12 @@
     <string name="alert_qrcode_invalid">Invalid QR code.</string>
     <string name="alert_permission_denied">Permission is denied.</string>
     <string name="alert_file_not_found">File is not found.</string>
-    <string name="alert_settings_invalid">Settings are invalid.</string>
     <string name="alert_settings_saved">Settings are saved.</string>
     <string name="alert_settings_exported">Settings are exported.</string>
     <string name="alert_settings_export_failed">Failed to export settings.</string>
     <string name="alert_settings_imported">Settings are imported.</string>
     <string name="alert_profile_not_found">Profile is not found.</string>
+    <string name="alert_player_arguments_invalid">Player arguments are invalid.</string>
     <string name="mime_type_json">application/json</string>
     <string name="file_settings_default">settings.json</string>
 </resources>

@@ -2,15 +2,11 @@ package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 
 import androidx.annotation.Nullable;
 
-import com.owlike.genson.Genson;
-
 import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Profile {
-    private final static Genson GENSON = new Genson();
-
     @Nullable
     private String mId;
 
@@ -41,8 +37,7 @@ public class Profile {
     @Nullable
     private OffsetDateTime mDeviceLastUpdateTime;
 
-    public static Profile deserialize(String json) {
-        return GENSON.deserialize(json, Profile.class).asBuilder().build();
+    Profile() {
     }
 
     @Nullable
@@ -149,14 +144,14 @@ public class Profile {
                 .setDeviceLastUpdateTime(getDeviceLastUpdateTime());
     }
 
-    public String serialize() {
-        return GENSON.serialize(this);
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Profile profile = (Profile) o;
         return Objects.equals(getId(), profile.getId())
                 && Objects.equals(getServiceName(), profile.getServiceName())
@@ -187,63 +182,99 @@ public class Profile {
     }
 
     public static class Builder {
-        private final Profile mProfile = new Profile();
+        @Nullable
+        private String mId = UUID.randomUUID().toString();
+
+        @Nullable
+        private String mServiceName;
+
+        @Nullable
+        private Integer mServiceVersion;
+
+        @Nullable
+        private String mServiceDescription;
+
+        @Nullable
+        private OffsetDateTime mServiceLastUpdateTime;
+
+        @Nullable
+        private String mOrganizationId;
+
+        @Nullable
+        private String mDeviceName;
+
+        @Nullable
+        private String mDeviceId;
+
+        @Nullable
+        private String mDeviceDescription;
+
+        @Nullable
+        private OffsetDateTime mDeviceLastUpdateTime;
 
         public Builder setId(@Nullable String id) {
-            mProfile.setId(id);
+            mId = id;
             return this;
         }
 
         public Builder setServiceName(@Nullable String serviceName) {
-            mProfile.setServiceName(serviceName);
+            mServiceName = serviceName;
             return this;
         }
 
         public Builder setServiceVersion(@Nullable Integer serviceVersion) {
-            mProfile.setServiceVersion(serviceVersion);
+            mServiceVersion = serviceVersion;
             return this;
         }
 
         public Builder setServiceDescription(@Nullable String serviceDescription) {
-            mProfile.setServiceDescription(serviceDescription);
+            mServiceDescription = serviceDescription;
             return this;
         }
 
         public Builder setServiceLastUpdateTime(@Nullable OffsetDateTime serviceLastUpdateTime) {
-            mProfile.setServiceLastUpdateTime(serviceLastUpdateTime);
+            mServiceLastUpdateTime = serviceLastUpdateTime;
             return this;
         }
 
         public Builder setOrganizationId(@Nullable String organizationId) {
-            mProfile.setOrganizationId(organizationId);
+            mOrganizationId = organizationId;
             return this;
         }
 
         public Builder setDeviceName(@Nullable String deviceName) {
-            mProfile.setDeviceName(deviceName);
+            mDeviceName = deviceName;
             return this;
         }
 
         public Builder setDeviceId(@Nullable String deviceId) {
-            mProfile.setDeviceId(deviceId);
+            mDeviceId = deviceId;
             return this;
         }
 
         public Builder setDeviceDescription(@Nullable String deviceDescription) {
-            mProfile.setDeviceDescription(deviceDescription);
+            mDeviceDescription = deviceDescription;
             return this;
         }
 
         public Builder setDeviceLastUpdateTime(@Nullable OffsetDateTime deviceLastUpdateTime) {
-            mProfile.setDeviceLastUpdateTime(deviceLastUpdateTime);
+            mDeviceLastUpdateTime = deviceLastUpdateTime;
             return this;
         }
 
         public Profile build() {
-            if (mProfile.getId() == null) {
-                mProfile.setId(UUID.randomUUID().toString());
-            }
-            return mProfile;
+            Profile profile = new Profile();
+            profile.setId(mId);
+            profile.setServiceName(mServiceName);
+            profile.setServiceVersion(mServiceVersion);
+            profile.setServiceDescription(mServiceDescription);
+            profile.setServiceLastUpdateTime(mServiceLastUpdateTime);
+            profile.setOrganizationId(mOrganizationId);
+            profile.setDeviceId(mDeviceId);
+            profile.setDeviceName(mDeviceName);
+            profile.setDeviceDescription(mDeviceDescription);
+            profile.setDeviceLastUpdateTime(mDeviceLastUpdateTime);
+            return profile;
         }
     }
 }
