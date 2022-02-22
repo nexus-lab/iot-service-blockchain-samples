@@ -102,7 +102,7 @@ export default function ServiceInfo({
               <Qrcode
                 width={300}
                 height={300}
-                content={JSON.stringify({ organizationId, deviceId, name })}
+                content={JSON.stringify({ organizationId, deviceId, serviceName: name })}
               />
             </Box>
           </Group>
