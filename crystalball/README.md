@@ -1,6 +1,6 @@
 # CrystalBall
 
-An Android app that stream live video feeds of IoT devices using IoT Service Blockchain.
+An Android app that streams live video feeds of IoT devices using IoT Service Blockchain.
 
 <table>
 <tr>
