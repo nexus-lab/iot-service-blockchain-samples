@@ -1,10 +1,14 @@
 package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 
+import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.owlike.genson.Genson;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -62,18 +66,26 @@ public class ProfileRepository {
         return mDataSource.all();
     }
 
-    public void add(Profile profile) {
+    public void add(@NonNull Profile profile) {
         mDataSource.add(profile);
         mProfiles.setValue(copyOf(all()));
     }
 
-    public void set(Profile profile) {
+    public void set(@NonNull Profile profile) {
         mDataSource.set(profile);
         mProfiles.setValue(copyOf(all()));
     }
 
-    public void remove(Profile profile) {
+    public void remove(@NonNull Profile profile) {
         mDataSource.remove(profile);
         mProfiles.setValue(copyOf(all()));
+    }
+
+    public Bitmap getScreenshot(@NonNull Profile profile) {
+        return mDataSource.getScreenshot(profile);
+    }
+
+    public void putScreenshot(@NonNull Profile profile, @NonNull Bitmap screenshot) throws IOException {
+        mDataSource.putScreenshot(profile, screenshot);
     }
 }

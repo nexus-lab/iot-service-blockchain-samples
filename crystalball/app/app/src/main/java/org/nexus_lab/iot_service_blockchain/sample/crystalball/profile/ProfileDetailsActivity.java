@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.Menu;
@@ -31,6 +32,17 @@ public class ProfileDetailsActivity extends AppCompatActivity implements Profile
     private String mId;
     private ProfileRepository mRepository;
     private ActivityServiceDetailsBinding mViewBinding;
+    private final View.OnClickListener mOnPlayClickListener = v -> {
+        Profile profile = mRepository.get(mId);
+        if (profile == null) {
+            Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
+        } else {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mViewBinding.play, getString(R.string.transition_details_to_player));
+            Intent intent = new Intent(ProfileDetailsActivity.this, PlayerActivity.class);
+            intent.putExtra(PlayerActivity.ARG_PROFILE_ID, profile.getId());
+            startActivity(intent, options.toBundle());
+        }
+    };
     private BlockchainService.ServiceBinder mBinder;
     private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -41,17 +53,6 @@ public class ProfileDetailsActivity extends AppCompatActivity implements Profile
         @Override
         public void onServiceDisconnected(ComponentName name) {
             mBinder = null;
-        }
-    };
-    private final View.OnClickListener mOnPlayClickListener = v -> {
-        Profile profile = mRepository.get(mId);
-        if (profile == null) {
-            Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
-        } else {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mViewBinding.play, getString(R.string.transition_details_to_player));
-            Intent intent = new Intent(ProfileDetailsActivity.this, PlayerActivity.class);
-            intent.putExtra(PlayerActivity.ARG_PROFILE_ID, profile.getId());
-            startActivity(intent, options.toBundle());
         }
     };
 
@@ -156,7 +157,7 @@ public class ProfileDetailsActivity extends AppCompatActivity implements Profile
         }
     }
 
-    private void updateUi(Profile profile) {
+    private void updateUi(@NonNull Profile profile) {
         DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
         mViewBinding.serviceName.setText(profile.getServiceName());
@@ -173,6 +174,11 @@ public class ProfileDetailsActivity extends AppCompatActivity implements Profile
         mViewBinding.deviceDescription.setText(profile.getDeviceDescription());
         if (profile.getDeviceLastUpdateTime() != null) {
             mViewBinding.deviceLastUpdateTime.setText(profile.getDeviceLastUpdateTime().format(formatter));
+        }
+
+        Bitmap screenshot = mRepository.getScreenshot(profile);
+        if (screenshot != null) {
+            mViewBinding.screenshot.setImageBitmap(screenshot);
         }
     }
 }

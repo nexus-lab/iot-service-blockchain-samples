@@ -22,8 +22,8 @@ public class ClientSettings {
         return mOrganizationId;
     }
 
-    void setOrganizationId(@Nullable String organizationId) {
-        mOrganizationId = organizationId;
+    void setOrganizationId(@Nullable String id) {
+        mOrganizationId = id;
     }
 
     @Nullable
@@ -40,8 +40,8 @@ public class ClientSettings {
         return mPrivateKey;
     }
 
-    void setPrivateKey(@Nullable String privateKey) {
-        mPrivateKey = privateKey;
+    void setPrivateKey(@Nullable String key) {
+        mPrivateKey = key;
     }
 
     @Override
@@ -80,8 +80,8 @@ public class ClientSettings {
         @Nullable
         private String mPrivateKey;
 
-        public Builder setOrganizationId(@Nullable String organizationId) {
-            mOrganizationId = organizationId;
+        public Builder setOrganizationId(@Nullable String id) {
+            mOrganizationId = id;
             return this;
         }
 
@@ -90,8 +90,8 @@ public class ClientSettings {
             return this;
         }
 
-        public Builder setPrivateKey(@Nullable String privateKey) {
-            mPrivateKey = privateKey;
+        public Builder setPrivateKey(@Nullable String key) {
+            mPrivateKey = key;
             return this;
         }
 

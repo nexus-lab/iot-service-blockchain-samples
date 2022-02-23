@@ -31,8 +31,8 @@ public class GatewaySettings {
         return mServerName;
     }
 
-    void setServerName(@Nullable String serverName) {
-        mServerName = serverName;
+    void setServerName(@Nullable String name) {
+        mServerName = name;
     }
 
     @Nullable
@@ -40,8 +40,8 @@ public class GatewaySettings {
         return mTlsCertificate;
     }
 
-    void setTlsCertificate(@Nullable String tlsCertificate) {
-        mTlsCertificate = tlsCertificate;
+    void setTlsCertificate(@Nullable String certificate) {
+        mTlsCertificate = certificate;
     }
 
     public Builder asBuilder() {
@@ -85,8 +85,8 @@ public class GatewaySettings {
             return this;
         }
 
-        public Builder setServerName(@Nullable String serverName) {
-            mServerName = serverName;
+        public Builder setServerName(@Nullable String name) {
+            mServerName = name;
             return this;
         }
 

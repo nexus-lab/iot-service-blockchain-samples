@@ -71,10 +71,9 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
         mViewBinding.serviceList.setLayoutManager(layoutManager);
         mViewBinding.serviceList.addItemDecoration(divider);
 
-        mAdapter = new ProfileAdapter();
-        mAdapter.addOnItemClickListener(this);
         mRepository = ((App) getApplication()).getProfileRepository();
-        mRepository.getObservable().observe(this, profiles -> mAdapter.submitList(profiles));
+        mAdapter = new ProfileAdapter(this, mRepository);
+        mAdapter.addOnItemClickListener(this);
         mViewBinding.serviceList.setAdapter(mAdapter);
     }
 

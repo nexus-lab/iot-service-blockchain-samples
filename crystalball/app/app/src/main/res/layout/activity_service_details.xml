@@ -40,7 +40,7 @@
                 android:theme="@style/ThemeOverlay.ControlBar.Transparent">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/play_background"
+                    android:id="@+id/screenshot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
@@ -61,12 +61,12 @@
                     android:focusable="true"
                     android:scaleType="center"
                     android:transitionName="@string/transition_details_to_player"
-                    app:layout_constraintBottom_toBottomOf="@+id/play_background"
-                    app:layout_constraintEnd_toEndOf="@+id/play_background"
-                    app:layout_constraintStart_toStartOf="@+id/play_background"
-                    app:layout_constraintTop_toTopOf="@+id/play_background"
+                    app:layout_constraintBottom_toBottomOf="@+id/screenshot"
+                    app:layout_constraintEnd_toEndOf="@+id/screenshot"
+                    app:layout_constraintStart_toStartOf="@+id/screenshot"
+                    app:layout_constraintTop_toTopOf="@+id/screenshot"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.CornerSize8dp"
-                    app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
+                    app:srcCompat="@drawable/ic_baseline_play_circle_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

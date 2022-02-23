@@ -4,9 +4,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
+import android.view.PixelCopy;
+import android.view.SurfaceView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,7 @@ import androidx.lifecycle.Observer;
 
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
@@ -26,10 +31,15 @@ import org.nexus_lab.iot_service_blockchain.sample.crystalball.BlockchainService
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.LiveDataWrapper;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.R;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.databinding.ActivityPlayerBinding;
+import org.nexus_lab.iot_service_blockchain.sample.crystalball.profile.Profile;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.profile.ProfileRepository;
 import org.nexus_lab.iot_service_blockchain.sdk.ServiceResponse;
 
-public class PlayerActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.util.Date;
+
+public class PlayerActivity extends AppCompatActivity implements Player.Listener {
+    public final static String TAG = PlayerActivity.class.getName();
     public final static String ARG_PROFILE_ID = "PROFILE_ID";
 
     private String mId;
@@ -94,6 +104,7 @@ public class PlayerActivity extends AppCompatActivity {
         mViewBinding.player.setPlayer(mPlayer);
         mViewBinding.player.setControllerVisibilityListener(mViewBinding.closeContainer::setVisibility);
         mViewBinding.closeContainer.setVisibility(mViewBinding.player.isControllerVisible() ? View.VISIBLE : View.INVISIBLE);
+        mPlayer.addListener(this);
 
         bindService(new Intent(this, BlockchainService.class), mConnection, Context.BIND_AUTO_CREATE);
     }
@@ -105,10 +116,40 @@ public class PlayerActivity extends AppCompatActivity {
         mPlayer.release();
     }
 
+    @Override
+    public void onIsPlayingChanged(boolean isPlaying) {
+        if (isPlaying) {
+            View view = mViewBinding.player.getVideoSurfaceView();
+            if (view instanceof SurfaceView) {
+                screenshot((SurfaceView) view);
+            }
+        }
+    }
+
     private void play(@NonNull String uri) {
         Snackbar.make(mViewBinding.getRoot(), getString(R.string.alert_stream_playing, uri), Snackbar.LENGTH_LONG).show();
         mPlayer.setMediaItem(MediaItem.fromUri(uri));
         mPlayer.prepare();
         mPlayer.setPlayWhenReady(true);
+    }
+
+    private void screenshot(SurfaceView view) {
+        Bitmap screenshot = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        PixelCopy.request(view, screenshot, (PixelCopy.OnPixelCopyFinishedListener) result -> {
+            if (mRepository == null) {
+                return;
+            }
+            Profile profile = mRepository.get(mId);
+            if (profile == null || PixelCopy.SUCCESS != result) {
+                return;
+            }
+            try {
+                mRepository.putScreenshot(profile, screenshot);
+                profile = profile.asBuilder().setScreenshotTime(new Date()).build();
+                mRepository.set(profile);
+            } catch (IOException e) {
+                Log.w(TAG, "failed to save screenshot", e);
+            }
+        }, view.getHandler());
     }
 }

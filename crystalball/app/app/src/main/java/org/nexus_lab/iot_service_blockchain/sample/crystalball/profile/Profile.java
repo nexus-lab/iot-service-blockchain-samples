@@ -3,6 +3,7 @@ package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 import androidx.annotation.Nullable;
 
 import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -37,6 +38,9 @@ public class Profile {
     @Nullable
     private OffsetDateTime mDeviceLastUpdateTime;
 
+    @Nullable
+    private Date mScreenshotTime;
+
     Profile() {
     }
 
@@ -54,8 +58,8 @@ public class Profile {
         return mServiceName;
     }
 
-    void setServiceName(@Nullable String serviceName) {
-        mServiceName = serviceName;
+    void setServiceName(@Nullable String name) {
+        mServiceName = name;
     }
 
     @Nullable
@@ -63,8 +67,8 @@ public class Profile {
         return mServiceVersion;
     }
 
-    void setServiceVersion(@Nullable Integer serviceVersion) {
-        mServiceVersion = serviceVersion;
+    void setServiceVersion(@Nullable Integer version) {
+        mServiceVersion = version;
     }
 
     @Nullable
@@ -72,8 +76,8 @@ public class Profile {
         return mServiceDescription;
     }
 
-    void setServiceDescription(@Nullable String serviceDescription) {
-        mServiceDescription = serviceDescription;
+    void setServiceDescription(@Nullable String description) {
+        mServiceDescription = description;
     }
 
     @Nullable
@@ -81,8 +85,8 @@ public class Profile {
         return mServiceLastUpdateTime;
     }
 
-    void setServiceLastUpdateTime(@Nullable OffsetDateTime serviceLastUpdateTime) {
-        mServiceLastUpdateTime = serviceLastUpdateTime;
+    void setServiceLastUpdateTime(@Nullable OffsetDateTime time) {
+        mServiceLastUpdateTime = time;
     }
 
     @Nullable
@@ -90,8 +94,8 @@ public class Profile {
         return mOrganizationId;
     }
 
-    void setOrganizationId(@Nullable String organizationId) {
-        mOrganizationId = organizationId;
+    void setOrganizationId(@Nullable String id) {
+        mOrganizationId = id;
     }
 
     @Nullable
@@ -99,8 +103,8 @@ public class Profile {
         return mDeviceName;
     }
 
-    void setDeviceName(@Nullable String deviceName) {
-        mDeviceName = deviceName;
+    void setDeviceName(@Nullable String name) {
+        mDeviceName = name;
     }
 
     @Nullable
@@ -108,8 +112,8 @@ public class Profile {
         return mDeviceId;
     }
 
-    void setDeviceId(@Nullable String deviceId) {
-        mDeviceId = deviceId;
+    void setDeviceId(@Nullable String id) {
+        mDeviceId = id;
     }
 
     @Nullable
@@ -117,8 +121,8 @@ public class Profile {
         return mDeviceDescription;
     }
 
-    void setDeviceDescription(@Nullable String deviceDescription) {
-        mDeviceDescription = deviceDescription;
+    void setDeviceDescription(@Nullable String description) {
+        mDeviceDescription = description;
     }
 
     @Nullable
@@ -126,8 +130,17 @@ public class Profile {
         return mDeviceLastUpdateTime;
     }
 
-    void setDeviceLastUpdateTime(@Nullable OffsetDateTime deviceLastUpdateTime) {
-        mDeviceLastUpdateTime = deviceLastUpdateTime;
+    void setDeviceLastUpdateTime(@Nullable OffsetDateTime time) {
+        mDeviceLastUpdateTime = time;
+    }
+
+    @Nullable
+    public Date getScreenshotTime() {
+        return mScreenshotTime;
+    }
+
+    void setScreenshotTime(@Nullable Date time) {
+        mScreenshotTime = time;
     }
 
     public Builder asBuilder() {
@@ -141,7 +154,8 @@ public class Profile {
                 .setDeviceId(getDeviceId())
                 .setDeviceName(getDeviceName())
                 .setDeviceDescription(getDeviceDescription())
-                .setDeviceLastUpdateTime(getDeviceLastUpdateTime());
+                .setDeviceLastUpdateTime(getDeviceLastUpdateTime())
+                .setScreenshotTime(getScreenshotTime());
     }
 
     @Override
@@ -162,7 +176,8 @@ public class Profile {
                 && Objects.equals(getDeviceName(), profile.getDeviceName())
                 && Objects.equals(getDeviceId(), profile.getDeviceId())
                 && Objects.equals(getDeviceDescription(), profile.getDeviceDescription())
-                && Objects.equals(getDeviceLastUpdateTime(), profile.getDeviceLastUpdateTime());
+                && Objects.equals(getDeviceLastUpdateTime(), profile.getDeviceLastUpdateTime())
+                && Objects.equals(getScreenshotTime(), profile.getScreenshotTime());
     }
 
     @Override
@@ -177,7 +192,8 @@ public class Profile {
                 getDeviceName(),
                 getDeviceId(),
                 getDeviceDescription(),
-                getDeviceLastUpdateTime()
+                getDeviceLastUpdateTime(),
+                getScreenshotTime()
         );
     }
 
@@ -212,53 +228,61 @@ public class Profile {
         @Nullable
         private OffsetDateTime mDeviceLastUpdateTime;
 
+        @Nullable
+        private Date mScreenshotTime;
+
         public Builder setId(@Nullable String id) {
             mId = id;
             return this;
         }
 
-        public Builder setServiceName(@Nullable String serviceName) {
-            mServiceName = serviceName;
+        public Builder setServiceName(@Nullable String name) {
+            mServiceName = name;
             return this;
         }
 
-        public Builder setServiceVersion(@Nullable Integer serviceVersion) {
-            mServiceVersion = serviceVersion;
+        public Builder setServiceVersion(@Nullable Integer version) {
+            mServiceVersion = version;
             return this;
         }
 
-        public Builder setServiceDescription(@Nullable String serviceDescription) {
-            mServiceDescription = serviceDescription;
+        public Builder setServiceDescription(@Nullable String description) {
+            mServiceDescription = description;
             return this;
         }
 
-        public Builder setServiceLastUpdateTime(@Nullable OffsetDateTime serviceLastUpdateTime) {
-            mServiceLastUpdateTime = serviceLastUpdateTime;
+        public Builder setServiceLastUpdateTime(@Nullable OffsetDateTime time) {
+            mServiceLastUpdateTime = time;
             return this;
         }
 
-        public Builder setOrganizationId(@Nullable String organizationId) {
-            mOrganizationId = organizationId;
+        public Builder setOrganizationId(@Nullable String id) {
+            mOrganizationId = id;
             return this;
         }
 
-        public Builder setDeviceName(@Nullable String deviceName) {
-            mDeviceName = deviceName;
+        public Builder setDeviceName(@Nullable String name) {
+            mDeviceName = name;
             return this;
         }
 
-        public Builder setDeviceId(@Nullable String deviceId) {
-            mDeviceId = deviceId;
+        public Builder setDeviceId(@Nullable String id) {
+            mDeviceId = id;
             return this;
         }
 
-        public Builder setDeviceDescription(@Nullable String deviceDescription) {
-            mDeviceDescription = deviceDescription;
+        public Builder setDeviceDescription(@Nullable String description) {
+            mDeviceDescription = description;
             return this;
         }
 
-        public Builder setDeviceLastUpdateTime(@Nullable OffsetDateTime deviceLastUpdateTime) {
-            mDeviceLastUpdateTime = deviceLastUpdateTime;
+        public Builder setDeviceLastUpdateTime(@Nullable OffsetDateTime time) {
+            mDeviceLastUpdateTime = time;
+            return this;
+        }
+
+        public Builder setScreenshotTime(@Nullable Date time) {
+            mScreenshotTime = time;
             return this;
         }
 
@@ -274,6 +298,7 @@ public class Profile {
             profile.setDeviceName(mDeviceName);
             profile.setDeviceDescription(mDeviceDescription);
             profile.setDeviceLastUpdateTime(mDeviceLastUpdateTime);
+            profile.setScreenshotTime(mScreenshotTime);
             return profile;
         }
     }

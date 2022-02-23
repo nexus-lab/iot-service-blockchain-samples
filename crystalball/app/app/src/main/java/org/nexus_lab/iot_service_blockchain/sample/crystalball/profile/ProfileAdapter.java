@@ -1,11 +1,14 @@
 package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +20,13 @@ import java.util.List;
 import java.util.Objects;
 
 public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHolder> {
+    private final ProfileRepository mRepository;
     private final List<OnItemClickListener> mListeners = new ArrayList<>();
     private final AsyncListDiffer<Profile> mDiffer = new AsyncListDiffer<>(this, new DiffCallback());
 
-    public void submitList(List<Profile> profiles) {
-        mDiffer.submitList(profiles);
+    public ProfileAdapter(LifecycleOwner owner, ProfileRepository repository) {
+        mRepository = repository;
+        mRepository.getObservable().observe(owner, mDiffer::submitList);
     }
 
     public void addOnItemClickListener(OnItemClickListener listener) {
@@ -47,14 +52,20 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Profile profile = mDiffer.getCurrentList().get(position);
-        holder.getServiceNameView().setText(profile.getServiceName());
-        holder.getDeviceNameView().setText(profile.getDeviceName() == null ? profile.getDeviceId() : profile.getDeviceName());
-        holder.getOrganizationIdView().setText(profile.getOrganizationId());
-        holder.setOnClickListener(view -> {
-            for (OnItemClickListener listener : mListeners) {
-                listener.onItemClick(view, profile);
+        if (profile != null) {
+            Bitmap screenshot = mRepository.getScreenshot(profile);
+            if (screenshot != null) {
+                holder.getScreenshotView().setImageBitmap(screenshot);
             }
-        });
+            holder.getServiceNameView().setText(profile.getServiceName());
+            holder.getDeviceNameView().setText(profile.getDeviceName() == null ? profile.getDeviceId() : profile.getDeviceName());
+            holder.getOrganizationIdView().setText(profile.getOrganizationId());
+            holder.setOnClickListener(view -> {
+                for (OnItemClickListener listener : mListeners) {
+                    listener.onItemClick(view, profile);
+                }
+            });
+        }
     }
 
     public interface OnItemClickListener {
@@ -66,7 +77,11 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
 
         public ViewHolder(@NonNull ItemServiceProfileBinding binding) {
             super(binding.getRoot());
-            this.mViewBinding = binding;
+            mViewBinding = binding;
+        }
+
+        public ImageView getScreenshotView() {
+            return mViewBinding.screenshot;
         }
 
         public TextView getServiceNameView() {
@@ -82,7 +97,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ViewHold
         }
 
         public void setOnClickListener(View.OnClickListener listener) {
-            this.mViewBinding.getRoot().setOnClickListener(listener);
+            mViewBinding.getRoot().setOnClickListener(listener);
         }
     }
 
