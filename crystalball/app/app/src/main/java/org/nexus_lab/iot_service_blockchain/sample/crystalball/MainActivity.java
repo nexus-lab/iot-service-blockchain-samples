@@ -37,12 +37,12 @@ import io.github.g00fy2.quickie.QRResult;
 import io.github.g00fy2.quickie.ScanQRCode;
 
 public class MainActivity extends AppCompatActivity implements ProfileAdapter.OnItemClickListener, ActivityResultCallback<QRResult>, ProfileEditorBuilder.Listener {
+    @SuppressWarnings("unchecked")
+    private final ActivityResultLauncher<Void> scanner = registerForActivityResult(new ScanQRCode(), this);
     private ProfileAdapter mAdapter;
     private ProfileRepository mRepository;
     private ActivityMainBinding mViewBinding;
     private BlockchainService.ServiceBinder mBinder;
-    @SuppressWarnings("unchecked")
-    private final ActivityResultLauncher<Void> scanner = registerForActivityResult(new ScanQRCode(), this);
     private final ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bindService(new Intent(this, BlockchainService.class), mConnection, Context.BIND_AUTO_CREATE);
+
         mViewBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mViewBinding.getRoot());
         setSupportActionBar(mViewBinding.toolbar);
@@ -74,18 +76,6 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
         mRepository = ((App) getApplication()).getProfileRepository();
         mRepository.getObservable().observe(this, profiles -> mAdapter.submitList(profiles));
         mViewBinding.serviceList.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        bindService(new Intent(this, BlockchainService.class), mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        unbindService(mConnection);
     }
 
     @Override
@@ -119,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindService(mConnection);
         mAdapter.removeOnItemClickListener(this);
     }
 
@@ -154,16 +145,12 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
     }
 
     @Override
-    public void onSave(Profile profile) {
+    public void onSave(@NonNull Profile profile) {
         mRepository.add(profile);
         if (mBinder != null) {
             mBinder.refresh(profile).observe(this, data -> {
                 if (data.getThrowable() != null) {
-                    Snackbar.make(
-                            mViewBinding.getRoot(),
-                            getString(R.string.alert_failed_to_refresh_profile, data.getThrowable().getMessage()),
-                            Snackbar.LENGTH_LONG
-                    ).show();
+                    Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_retrieve_failed, Snackbar.LENGTH_LONG).show();
                 } else if (data.getData() != null) {
                     mRepository.set(data.getData());
                 }

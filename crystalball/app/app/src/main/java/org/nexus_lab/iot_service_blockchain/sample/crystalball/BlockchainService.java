@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import org.hyperledger.fabric.client.CloseableIterator;
+import org.hyperledger.fabric.client.GatewayRuntimeException;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.profile.Profile;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.settings.Settings;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.settings.SettingsRepository;
@@ -28,6 +29,7 @@ import org.nexus_lab.iot_service_blockchain.sdk.ServiceRequest;
 import org.nexus_lab.iot_service_blockchain.sdk.ServiceRequestEvent;
 import org.nexus_lab.iot_service_blockchain.sdk.ServiceResponse;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -35,12 +37,11 @@ import java.util.UUID;
 
 public class BlockchainService extends LifecycleService {
     private final static String TAG = BlockchainService.class.getName();
-
+    private final IBinder mBinder = new ServiceBinder();
     private Handler mMainHandler;
     private Settings mCurrentSettings;
     private HandlerThread mServiceThread;
     private ServiceHandler mServiceHandler;
-    private final IBinder mBinder = new ServiceBinder();
 
     @Override
     public IBinder onBind(@NonNull Intent intent) {
@@ -108,7 +109,14 @@ public class BlockchainService extends LifecycleService {
         public void run() {
             if (mEventStream != null) {
                 try {
-                    while (mEventStream.hasNext()) {
+                    while (true) {
+                        try {
+                            if (!mEventStream.hasNext()) {
+                                break;
+                            }
+                        } catch (GatewayRuntimeException ignored) {
+                            break;
+                        }
                         ServiceRequestEvent event = mEventStream.next();
                         if (!"respond".equals(event.getAction())) {
                             continue;
@@ -221,6 +229,9 @@ public class BlockchainService extends LifecycleService {
                     ServiceRequest request = new ServiceRequest();
                     request.setId(UUID.randomUUID().toString());
                     request.setService(service);
+                    request.setMethod("GET");
+                    request.setTime(OffsetDateTime.now());
+                    request.setArguments(new String[0]);
 
                     mCallbackRegistry.put(request.getId(), callback);
                     Objects.requireNonNull(mBlockchainSdk).getServiceBroker().request(request);

@@ -7,6 +7,7 @@ import com.owlike.genson.Genson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ProfileRepository {
     private final static Genson GENSON = new Genson();
@@ -20,7 +21,12 @@ public class ProfileRepository {
     }
 
     public static Profile deserialize(String json) {
-        return GENSON.deserialize(json, Profile.class).asBuilder().build();
+        Profile partial = GENSON.deserialize(json, Profile.class);
+        Profile.Builder builder = partial.asBuilder();
+        if (partial.getId() == null) {
+            builder.setId(UUID.randomUUID().toString());
+        }
+        return builder.build();
     }
 
     public static String serialize(Profile profile) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -88,7 +89,7 @@ public class ProfileEditorBuilder implements DialogInterface.OnClickListener, Di
     }
 
     public interface Listener {
-        void onSave(Profile profile);
+        void onSave(@NonNull Profile profile);
 
         default void onCancel() {
         }

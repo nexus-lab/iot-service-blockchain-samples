@@ -13,6 +13,7 @@ import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
 import org.nexus_lab.iot_service_blockchain.sdk.OffsetDateTimeConverter;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProfileDataSource {
     private final static String PREFERENCE_NAME = "profiles";
@@ -43,7 +44,7 @@ public class ProfileDataSource {
 
     public Profile get(@NonNull String id) {
         for (Profile profile : mProfiles) {
-            if (id.equals(profile.getId())) {
+            if (Objects.equals(id, profile.getId())) {
                 return profile;
             }
         }
@@ -52,7 +53,7 @@ public class ProfileDataSource {
 
     public int indexOf(@NonNull String id) {
         for (int i = 0; i < mProfiles.size(); i++) {
-            if (id.equals(mProfiles.get(i).getId())) {
+            if (Objects.equals(id, mProfiles.get(i).getId())) {
                 return i;
             }
         }

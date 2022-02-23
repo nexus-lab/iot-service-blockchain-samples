@@ -50,8 +50,11 @@
     <string name="alert_settings_export_failed">Failed to export settings.</string>
     <string name="alert_settings_imported">Settings are imported.</string>
     <string name="alert_profile_not_found">Profile is not found.</string>
-    <string name="alert_player_arguments_invalid">Player arguments are invalid.</string>
-    <string name="alert_failed_to_refresh_profile">Failed to refresh profile: %1$s.</string>
+    <string name="alert_profile_retrieving">Retrieving service and device profile from blockchain…</string>
+    <string name="alert_profile_retrieve_failed">Failed to retrieve profile from blockchain.</string>
+    <string name="alert_stream_requesting">Requesting stream URI from blockchain…</string>
+    <string name="alert_stream_request_failed">Failed to request stream URI from blockchain.</string>
+    <string name="alert_stream_playing">Playing stream %1$s.</string>
     <string name="mime_type_json">application/json</string>
     <string name="file_settings_default">settings.json</string>
 </resources>

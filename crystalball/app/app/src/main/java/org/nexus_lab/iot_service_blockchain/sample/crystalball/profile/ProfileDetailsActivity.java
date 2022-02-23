@@ -1,16 +1,23 @@
 package org.nexus_lab.iot_service_blockchain.sample.crystalball.profile;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
+import org.nexus_lab.iot_service_blockchain.sample.crystalball.BlockchainService;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.R;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.databinding.ActivityServiceDetailsBinding;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.player.PlayerActivity;
@@ -18,22 +25,46 @@ import org.nexus_lab.iot_service_blockchain.sample.crystalball.player.PlayerActi
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-public class ProfileDetailsActivity extends AppCompatActivity {
+public class ProfileDetailsActivity extends AppCompatActivity implements ProfileEditorBuilder.Listener {
     public final static String ARG_PROFILE_ID = "PROFILE_ID";
 
     private String mId;
     private ProfileRepository mRepository;
     private ActivityServiceDetailsBinding mViewBinding;
+    private BlockchainService.ServiceBinder mBinder;
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (BlockchainService.ServiceBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBinder = null;
+        }
+    };
+    private final View.OnClickListener mOnPlayClickListener = v -> {
+        Profile profile = mRepository.get(mId);
+        if (profile == null) {
+            Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
+        } else {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mViewBinding.play, getString(R.string.transition_details_to_player));
+            Intent intent = new Intent(ProfileDetailsActivity.this, PlayerActivity.class);
+            intent.putExtra(PlayerActivity.ARG_PROFILE_ID, profile.getId());
+            startActivity(intent, options.toBundle());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mViewBinding = ActivityServiceDetailsBinding.inflate(getLayoutInflater());
-        mRepository = ((App) getApplication()).getProfileRepository();
+        bindService(new Intent(this, BlockchainService.class), mConnection, Context.BIND_AUTO_CREATE);
 
-        Intent intent = getIntent();
-        mId = intent.getStringExtra(ARG_PROFILE_ID);
+        mRepository = ((App) getApplication()).getProfileRepository();
+        mViewBinding = ActivityServiceDetailsBinding.inflate(getLayoutInflater());
+
+        mId = getIntent().getStringExtra(ARG_PROFILE_ID);
         if (mId == null || mRepository.get(mId) == null) {
             Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_not_found, Snackbar.LENGTH_LONG).show();
             supportFinishAfterTransition();
@@ -49,16 +80,19 @@ public class ProfileDetailsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        mViewBinding.play.setOnClickListener(v -> {
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, mViewBinding.play, getString(R.string.transition_details_to_player));
-            startActivity(new Intent(ProfileDetailsActivity.this, PlayerActivity.class), options.toBundle());
-        });
+        mViewBinding.play.setOnClickListener(mOnPlayClickListener);
 
         mRepository.getObservable().observe(this, profiles -> {
             if (mRepository.get(mId) != null) {
                 updateUi(mRepository.get(mId));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mConnection);
     }
 
     @Override
@@ -74,6 +108,13 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             supportFinishAfterTransition();
             return true;
+        } else if (id == R.id.action_refresh) {
+            Profile profile = mRepository.get(mId);
+            if (profile != null) {
+                Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_retrieving, Snackbar.LENGTH_LONG).show();
+                refreshProfile(profile);
+            }
+            return true;
         } else if (id == R.id.action_edit) {
             Profile profile = mRepository.get(mId);
             ProfileEditorBuilder dialogBuilder = new ProfileEditorBuilder(this)
@@ -81,13 +122,7 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                     .setDeviceId(profile.getDeviceId())
                     .setOrganizationId(profile.getOrganizationId())
                     .setServiceName(profile.getServiceName())
-                    .setOnActionListener(update -> {
-                        Profile.Builder builder = mRepository.get(mId).asBuilder();
-                        builder.setDeviceId(update.getDeviceId());
-                        builder.setOrganizationId(update.getOrganizationId());
-                        builder.setServiceName(update.getServiceName());
-                        mRepository.set(builder.build());
-                    });
+                    .setOnActionListener(this);
             dialogBuilder.create().show();
             return true;
         } else if (id == R.id.action_delete) {
@@ -97,6 +132,28 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSave(@NonNull Profile profile) {
+        Profile.Builder builder = mRepository.get(mId).asBuilder();
+        builder.setDeviceId(profile.getDeviceId());
+        builder.setOrganizationId(profile.getOrganizationId());
+        builder.setServiceName(profile.getServiceName());
+        mRepository.set(builder.build());
+        refreshProfile(profile);
+    }
+
+    private void refreshProfile(@NonNull Profile profile) {
+        if (mBinder != null) {
+            mBinder.refresh(profile).observe(this, data -> {
+                if (data.getThrowable() != null) {
+                    Snackbar.make(mViewBinding.getRoot(), R.string.alert_profile_retrieve_failed, Snackbar.LENGTH_LONG).show();
+                } else if (data.getData() != null) {
+                    mRepository.set(data.getData());
+                }
+            });
+        }
     }
 
     private void updateUi(Profile profile) {
