@@ -7,14 +7,16 @@ import androidx.annotation.NonNull;
 
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
+import com.owlike.genson.GensonBuilder;
 
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.App;
+import org.nexus_lab.iot_service_blockchain.sdk.OffsetDateTimeConverter;
 
 import java.util.List;
 
 public class ProfileDataSource {
-    private final static Genson GENSON = new Genson();
     private final static String PREFERENCE_NAME = "profiles";
+    private final static Genson GENSON = new GensonBuilder().withConverters(new OffsetDateTimeConverter()).create();
 
     private final List<Profile> mProfiles;
     private final SharedPreferences mPreferences;
@@ -70,8 +72,8 @@ public class ProfileDataSource {
         int index = profile.getId() == null ? -1 : indexOf(profile.getId());
         if (index > -1) {
             mProfiles.set(index, profile);
+            save();
         }
-        save();
     }
 
     public void remove(Profile profile) {

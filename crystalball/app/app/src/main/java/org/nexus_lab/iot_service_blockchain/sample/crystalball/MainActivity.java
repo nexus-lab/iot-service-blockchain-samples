@@ -1,7 +1,11 @@
 package org.nexus_lab.iot_service_blockchain.sample.crystalball;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,12 +36,24 @@ import java.util.Objects;
 import io.github.g00fy2.quickie.QRResult;
 import io.github.g00fy2.quickie.ScanQRCode;
 
-public class MainActivity extends AppCompatActivity implements ProfileAdapter.OnItemClickListener, ActivityResultCallback<QRResult> {
-    @SuppressWarnings("unchecked")
-    private final ActivityResultLauncher<Void> scanner = registerForActivityResult(new ScanQRCode(), this);
+public class MainActivity extends AppCompatActivity implements ProfileAdapter.OnItemClickListener, ActivityResultCallback<QRResult>, ProfileEditorBuilder.Listener {
     private ProfileAdapter mAdapter;
     private ProfileRepository mRepository;
     private ActivityMainBinding mViewBinding;
+    private BlockchainService.ServiceBinder mBinder;
+    @SuppressWarnings("unchecked")
+    private final ActivityResultLauncher<Void> scanner = registerForActivityResult(new ScanQRCode(), this);
+    private final ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mBinder = (BlockchainService.ServiceBinder) service;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBinder = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +77,18 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        bindService(new Intent(this, BlockchainService.class), mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(mConnection);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(@NonNull Menu menu) {
         getMenuInflater().inflate(R.menu.menu_service_list, menu);
         return true;
@@ -73,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
         if (id == R.id.action_add_manually) {
             new ProfileEditorBuilder(this)
                     .setTitle(getString(R.string.title_service_add))
-                    .setOnActionListener(profile -> mRepository.add(profile))
+                    .setOnActionListener(this)
                     .create()
                     .show();
             return true;
@@ -108,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
             String value = ((QRResult.QRSuccess) result).getContent().getRawValue();
             try {
                 Profile profile = ProfileRepository.deserialize(value);
-                mRepository.add(profile);
+                onSave(profile);
             } catch (JsonBindingException | JsonStreamException e) {
                 if (mViewBinding != null) {
                     Snackbar.make(mViewBinding.getRoot(), R.string.alert_qrcode_invalid, Snackbar.LENGTH_LONG).show();
@@ -122,6 +150,24 @@ public class MainActivity extends AppCompatActivity implements ProfileAdapter.On
             if (mViewBinding != null) {
                 Snackbar.make(mViewBinding.getRoot(), R.string.alert_permission_denied, Snackbar.LENGTH_LONG).show();
             }
+        }
+    }
+
+    @Override
+    public void onSave(Profile profile) {
+        mRepository.add(profile);
+        if (mBinder != null) {
+            mBinder.refresh(profile).observe(this, data -> {
+                if (data.getThrowable() != null) {
+                    Snackbar.make(
+                            mViewBinding.getRoot(),
+                            getString(R.string.alert_failed_to_refresh_profile, data.getThrowable().getMessage()),
+                            Snackbar.LENGTH_LONG
+                    ).show();
+                } else if (data.getData() != null) {
+                    mRepository.set(data.getData());
+                }
+            });
         }
     }
 }

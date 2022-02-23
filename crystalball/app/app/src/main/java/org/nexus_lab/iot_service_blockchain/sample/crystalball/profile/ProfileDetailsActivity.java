@@ -15,6 +15,9 @@ import org.nexus_lab.iot_service_blockchain.sample.crystalball.R;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.databinding.ActivityServiceDetailsBinding;
 import org.nexus_lab.iot_service_blockchain.sample.crystalball.player.PlayerActivity;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+
 public class ProfileDetailsActivity extends AppCompatActivity {
     public final static String ARG_PROFILE_ID = "PROFILE_ID";
 
@@ -97,20 +100,22 @@ public class ProfileDetailsActivity extends AppCompatActivity {
     }
 
     private void updateUi(Profile profile) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
+
         mViewBinding.serviceName.setText(profile.getServiceName());
         if (profile.getServiceVersion() != null) {
             mViewBinding.serviceVersion.setText(String.valueOf(profile.getServiceVersion()));
         }
         mViewBinding.serviceDescription.setText(profile.getServiceDescription());
         if (profile.getServiceLastUpdateTime() != null) {
-            mViewBinding.serviceLastUpdateTime.setText(profile.getServiceLastUpdateTime().toString());
+            mViewBinding.serviceLastUpdateTime.setText(profile.getServiceLastUpdateTime().format(formatter));
         }
         mViewBinding.organizationId.setText(profile.getOrganizationId());
         mViewBinding.deviceId.setText(profile.getDeviceId());
         mViewBinding.deviceName.setText(profile.getDeviceName());
         mViewBinding.deviceDescription.setText(profile.getDeviceDescription());
         if (profile.getDeviceLastUpdateTime() != null) {
-            mViewBinding.deviceLastUpdateTime.setText(profile.getDeviceLastUpdateTime().toString());
+            mViewBinding.deviceLastUpdateTime.setText(profile.getDeviceLastUpdateTime().format(formatter));
         }
     }
 }
