@@ -27,7 +27,7 @@ client:
 
 gateway:
   endpoint: localhost:7051
-  server_name: peer0.org2.example.com
+  server_name: peer0.org1.example.com
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
     MIICJzCCAc2gAwIBAgIUG443I5GPyugztsOJjwO7Eqdl0UgwCgYIKoZIzj0EAwIw

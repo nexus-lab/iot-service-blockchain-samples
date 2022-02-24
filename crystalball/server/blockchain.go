@@ -134,7 +134,7 @@ func NewBlockchainService(config *Config, tokenStore *TokenStore) (*BlockchainSe
 	service := &BlockchainService{
 		Sdk:                sdk,
 		TokenStore:         tokenStore,
-		StreamingAddr:      config.Stream.Addr,
+		StreamingAddr:      config.Stream.ExternalAddr,
 		OrganizationId:     sdk.GetOrganizationId(),
 		DeviceId:           sdk.GetDeviceId(),
 		DeviceName:         config.Client.DeviceName,

@@ -9,8 +9,9 @@ import (
 
 type Config struct {
 	Stream struct {
-		Addr string `yaml:"addr"`
-		Key  string `yaml:"key"`
+		ListenAddr   string `yaml:"listen_addr"`
+		ExternalAddr string `yaml:"external_addr"`
+		Key          string `yaml:"key"`
 	} `yaml:"stream"`
 	Client struct {
 		OrganizationId     string `yaml:"organization_id"`
