@@ -15,7 +15,7 @@
     "@mantine/hooks": "^3.6.7",
     "@mantine/next": "^3.6.7",
     "@mantine/notifications": "^3.6.7",
-    "@nexus-lab/iot-service-blockchain": "^0.0.4",
+    "@nexus-lab/iot-service-blockchain": "^0.0.5",
     "@zxing/browser": "^0.1.1",
     "@zxing/library": "^0.19.1",
     "axios": "^0.25.0",
@@ -23,6 +23,7 @@
     "js-yaml": "^4.1.0",
     "moment": "^2.29.1",
     "next": "^12.0.10",
+    "picocolors": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9"

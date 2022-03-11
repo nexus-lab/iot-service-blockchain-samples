@@ -541,10 +541,10 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.10.tgz#5c0ba98b695c4be44d8793aff42971a0dac65c2d"
   integrity sha512-oUIWRKd24jFLRWUYO1CZmML5+32BcpVfqhimGaaZIXcOkfQW+iqiAzdqsv688zaGtyKGeB9ZtiK3NDf+Q0v+Vw==
 
-"@nexus-lab/iot-service-blockchain@^0.0.4":
-  version "0.0.4"
-  resolved "https://npm.pkg.github.com/download/@nexus-lab/iot-service-blockchain/0.0.4/74e653d75621b8435e26aef6118215429468c163b4a52d046bf695a1a6e2eaa7#ffdaada504a6cc28736167de88fa2d327c19f82b"
-  integrity sha512-y86xDGN3pNmAC+Cu+9f0bkGdKYIHmngdh7usvmz4EYjFXwaFi3B5wlMIT7nTRm4mYec/N0AQnfFGdgKQDNYw0g==
+"@nexus-lab/iot-service-blockchain@^0.0.5":
+  version "0.0.5"
+  resolved "https://npm.pkg.github.com/download/@nexus-lab/iot-service-blockchain/0.0.5/871522f39765eaaed92b48f113fd779084515832b725671208e93734162109a0#ed40bbdcd42e9bf2b186f502bd6da8685d21996e"
+  integrity sha512-V0yXLMd0ye5INeUzYX7aDt5rF+S0FO3Z6WCinvfT7qZ571Hd948tV2TMOUVFfzDvf9TaOGeH1ij+gCwEQ9nSNg==
   dependencies:
     "@fidm/x509" "^1.2.1"
     "@grpc/grpc-js" "^1.5.3"

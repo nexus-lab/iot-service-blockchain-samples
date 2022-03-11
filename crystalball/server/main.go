@@ -42,8 +42,8 @@ func main() {
 	go func() {
 		defer waitGroup.Done()
 
-		rtmpServer := NewRtmpServer(config.Stream.Addr, config.Stream.Key, tokenStore)
-		logrus.Infof("streaming server address: rtmp://%s/?key=%s", config.Stream.Addr, config.Stream.Key)
+		rtmpServer := NewRtmpServer(config.Stream.ListenAddr, config.Stream.Key, tokenStore)
+		logrus.Infof("streaming server address: rtmp://%s/?key=%s", config.Stream.ExternalAddr, config.Stream.Key)
 
 		if err := rtmpServer.ListenAndServe(); err != nil {
 			logrus.Fatal("streaming server exited with error: ", err)

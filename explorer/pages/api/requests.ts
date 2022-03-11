@@ -1,7 +1,11 @@
 import Joi from 'joi';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { withCatchExceptions, withValidateQuery } from '../../components/api/middleware';
+import {
+  withCatchExceptions,
+  withLogging,
+  withValidateQuery,
+} from '../../components/api/middleware';
 import sdk from '../../components/api/sdk';
 
 function findServiceRequest(requestId: string) {
@@ -32,20 +36,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withCatchExceptions(
-  withValidateQuery(
-    handler,
-    Joi.object({
-      organizationId: Joi.string(),
-      deviceId: Joi.string(),
-      serviceName: Joi.string(),
-      requestId: Joi.string(),
-    })
-      .with('organizationId', ['deviceId', 'serviceName'])
-      .with('deviceId', ['organizationId', 'serviceName'])
-      .with('serviceName', ['organizationId', 'deviceId'])
-      .xor('requestId', 'organizationId')
-      .xor('requestId', 'deviceId')
-      .xor('requestId', 'serviceName')
+export default withLogging(
+  withCatchExceptions(
+    withValidateQuery(
+      handler,
+      Joi.object({
+        organizationId: Joi.string(),
+        deviceId: Joi.string(),
+        serviceName: Joi.string(),
+        requestId: Joi.string(),
+      })
+        .with('organizationId', ['deviceId', 'serviceName'])
+        .with('deviceId', ['organizationId', 'serviceName'])
+        .with('serviceName', ['organizationId', 'deviceId'])
+        .xor('requestId', 'organizationId')
+        .xor('requestId', 'deviceId')
+        .xor('requestId', 'serviceName')
+    )
   )
 );
