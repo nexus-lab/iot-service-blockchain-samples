@@ -1,0 +1,58 @@
+device:
+  device_name: kitchen_light
+  device_description: Kitchen smart light
+
+service:
+  service_name: kitchen_light_switch
+  service_version: 1
+  service_description: Kitchen smart light switch
+
+client:
+  organization_id: Org2MSP
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICqTCCAlCgAwIBAgIUOVBvmT+48dmMU8tDorKT2w5iXqAwCgYIKoZIzj0EAwIw
+    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
+    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
+    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMjQyMjU1MDBaFw0yMzAyMjQyMzAwMDBaMF0x
+    CzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChML
+    SHlwZXJsZWRnZXIxDzANBgNVBAsTBmNsaWVudDEOMAwGA1UEAxMFdXNlcjEwWTAT
+    BgcqhkjOPQIBBggqhkjOPQMBBwNCAAQiudNGrkeDrwCzh1HPyKCP1vJvES63w08+
+    v/ixW70r3PbdMLVGxWV+CpB5i6EYfI8vaQRj4eMg/g3lD69hY86Uo4HeMIHbMA4G
+    A1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRe0LbcLsn8Pk1d
+    Q7r4hs0C2TxmQjAfBgNVHSMEGDAWgBQHDyl1BrUzNWbJmnePSuKhu4o1tzAhBgNV
+    HREEGjAYghZpb3Qtc2VydmljZS1ibG9ja2NoYWluMFgGCCoDBAUGBwgBBEx7ImF0
+    dHJzIjp7ImhmLkFmZmlsaWF0aW9uIjoiIiwiaGYuRW5yb2xsbWVudElEIjoidXNl
+    cjEiLCJoZi5UeXBlIjoiY2xpZW50In19MAoGCCqGSM49BAMCA0cAMEQCIAD95A6M
+    QomoPT7VpaLCDBtjjoH50ZuzgL6pV+WT1Z1KAiBOBq3CdWdGY9/gPX+f51xDSSNl
+    dgf4MbjCztZVvi/dog==
+    -----END CERTIFICATE-----
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg1SQL5D+rag7hkI44
+    LaZAIa6D6SdmLQm8wGaLBC8DZa+hRANCAAQiudNGrkeDrwCzh1HPyKCP1vJvES63
+    w08+v/ixW70r3PbdMLVGxWV+CpB5i6EYfI8vaQRj4eMg/g3lD69hY86U
+    -----END PRIVATE KEY-----
+
+gateway:
+  endpoint: localhost:9051
+  server_name: peer0.org2.example.com
+  tls_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICHjCCAcWgAwIBAgIUerQNkSpfpb2zU04qKk2IxewztUIwCgYIKoZIzj0EAwIw
+    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
+    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
+    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMjQyMjU1MDBaFw0zNzAyMjAyMjU1MDBaMGwx
+    CzAJBgNVBAYTAlVLMRIwEAYDVQQIEwlIYW1wc2hpcmUxEDAOBgNVBAcTB0h1cnNs
+    ZXkxGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2NhLm9yZzIu
+    ZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARrbpU3+KO6EWeR
+    OJeIXgGlTwOYs17I0tqeddsd6keK/FfQvcrUnwG2cv0JXotQ9CZidBc+d2ecA0/Y
+    SOkUJp5oo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd
+    BgNVHQ4EFgQUBw8pdQa1MzVmyZp3j0riobuKNbcwCgYIKoZIzj0EAwIDRwAwRAIg
+    RpoKAGfgo33mokiVMALoAHFNjXtpxDXDcDPb2c9oeEYCIDeEC4l219Y7JcPEzppp
+    yGdkh4TIcJPvsfA+0vatlNTH
+    -----END CERTIFICATE-----
+
+network:
+  name: mychannel
+  chaincode: iotservice

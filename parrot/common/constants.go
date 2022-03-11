@@ -1,0 +1,10 @@
+package common
+
+const (
+	STATUS_UNKNOWN_ERROR         = -1
+	STATUS_OK                    = 0
+	STATUS_INVALID_REQUEST       = 1
+	STATUS_INVALID_AUDIO         = 2
+	STATUS_INFERENCE_FAILED      = 3
+	STATUS_INVALID_VOICE_COMMAND = 4
+)

@@ -1,0 +1,73 @@
+picovoice:
+  asset_dir: assets/picovoice
+  access_key: your_picovoice_access_key
+
+ipfs:
+  repo_path: /home/pi/.ipfs_assistant/
+  swarm_key: |
+    /key/swarm/psk/1.0.0/
+    /base16/
+    a1eb10eea29fc978cbf7f9fd936a554cf08c53edb603ecb9d1885b2df8ba663f
+  swarm_addresses:
+    - /ip4/0.0.0.0/tcp/24001
+    - /ip6/::/tcp/24001
+    - /ip4/0.0.0.0/udp/24001/quic
+    - /ip6/::/udp/24001/quic
+  bootstrap_peers:
+    - /ip4/127.0.0.1/tcp/14001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+    - /ip4/127.0.0.1/udp/14001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+
+ai_service:
+  organization_id: Org2MSP
+  device_id: eDUwOTo6Q049dXNlcjEsQz1VUyxTVD1Ob3J0aCBDYXJvbGluYSxPPUh5cGVybGVkZ2VyLE9VPWNsaWVudDo6Q049Y2Eub3JnMi5leGFtcGxlLmNvbSxDPVVLLEw9SHVyc2xleSxTVD1IYW1wc2hpcmUsTz1vcmcyLmV4YW1wbGUuY29t
+  service_name: voice_command
+
+client:
+  organization_id: Org1MSP
+  certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICrTCCAlSgAwIBAgIUObkFW7wy0zePdgpNlzoM+9pXbfgwCgYIKoZIzj0EAwIw
+    cDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH
+    EwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh
+    Lm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwMjI0MjI1NTAwWhcNMjMwMjI0MjMwMDAw
+    WjBdMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExFDASBgNV
+    BAoTC0h5cGVybGVkZ2VyMQ8wDQYDVQQLEwZjbGllbnQxDjAMBgNVBAMTBXVzZXIx
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE6zDEVu72MxZTFXP3ot1WOMm0kaWl
+    O+9+OipurbcF6pORMIrCS2WCJg8iXFASZ2jI9eYihLNE8o2528LNaAEWq6OB3jCB
+    2zAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUvJpCfDyg
+    02dGHECjmnEUYuI0KkwwHwYDVR0jBBgwFoAUFb5XypyABdy9o4KYC1HZMjCg/bcw
+    IQYDVR0RBBowGIIWaW90LXNlcnZpY2UtYmxvY2tjaGFpbjBYBggqAwQFBgcIAQRM
+    eyJhdHRycyI6eyJoZi5BZmZpbGlhdGlvbiI6IiIsImhmLkVucm9sbG1lbnRJRCI6
+    InVzZXIxIiwiaGYuVHlwZSI6ImNsaWVudCJ9fTAKBggqhkjOPQQDAgNHADBEAiAb
+    2kUYf3Q2zDEAcszxXd3xukw1ynpWHK5rxeFzzKEBpwIgavDWdhNgvn+ZZLpacHeW
+    hMzp6u1YYlve+Iv6Ds1hMOU=
+    -----END CERTIFICATE-----
+  private_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg8eB7tRtavVtx1p8s
+    MLMcG4naB7LiodZwJ80aBEU+wjihRANCAATrMMRW7vYzFlMVc/ei3VY4ybSRpaU7
+    7346Km6ttwXqk5EwisJLZYImDyJcUBJnaMj15iKEs0Tyjbnbws1oARar
+    -----END PRIVATE KEY-----
+
+gateway:
+  endpoint: localhost:7051
+  server_name: peer0.org1.example.com
+  tls_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIICJzCCAc2gAwIBAgIUWz+UdF9FMpYa9xXibbVzcq+YC1cwCgYIKoZIzj0EAwIw
+    cDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH
+    EwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh
+    Lm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwMjI0MjI1NTAwWhcNMzcwMjIwMjI1NTAw
+    WjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV
+    BAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT
+    Y2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABKMb
+    PdBfsApz4idD3RIcBSj76+fThzfTFf32DAxMJAveT8kh6JOZ9van5sZvxMYuEcRw
+    tbcxnmS+g+iTK4R+KX6jRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG
+    AQH/AgEBMB0GA1UdDgQWBBQVvlfKnIAF3L2jgpgLUdkyMKD9tzAKBggqhkjOPQQD
+    AgNIADBFAiEA6t5pyNOVXZcOAkFQ8JpAmlK/KMWw5zbmBOW8s5Zv9r8CIHDR3J+h
+    Yc7lc3VZV1Nmdzz06yZ1cyfYKYNu+mOvLpvQ
+    -----END CERTIFICATE-----
+
+network:
+  name: mychannel
+  chaincode: iotservice
