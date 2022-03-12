@@ -1,29 +1,64 @@
-picovoice:
-  asset_dir: assets/picovoice
-  access_key: your_picovoice_access_key
-
-ipfs:
-  repo_path: /home/pi/.ipfs_assistant/
-  swarm_key: |
-    /key/swarm/psk/1.0.0/
-    /base16/
-    a1eb10eea29fc978cbf7f9fd936a554cf08c53edb603ecb9d1885b2df8ba663f
-  swarm_addresses:
-    - /ip4/0.0.0.0/tcp/24001
-    - /ip6/::/tcp/24001
-    - /ip4/0.0.0.0/udp/24001/quic
-    - /ip6/::/udp/24001/quic
-  bootstrap_peers:
-    - /ip4/127.0.0.1/tcp/14001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
-    - /ip4/127.0.0.1/udp/14001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
-
+# =========================================================
+#                AI Component Configuration
+# =========================================================
+# The configurations in this section descrbie the IoT Service Blockchain address of the AI component
+# The key is the `location` slot in the speech-to-intent model, e.g., `kitchen`, `living room`, and
+# `bedroom`
+# You can obtain `organization_id`, `device_id`, and `service_name` of each actuator from previous
+# step
 ai_service:
   organization_id: Org2MSP
   device_id: eDUwOTo6Q049dXNlcjEsQz1VUyxTVD1Ob3J0aCBDYXJvbGluYSxPPUh5cGVybGVkZ2VyLE9VPWNsaWVudDo6Q049Y2Eub3JnMi5leGFtcGxlLmNvbSxDPVVLLEw9SHVyc2xleSxTVD1IYW1wc2hpcmUsTz1vcmcyLmV4YW1wbGUuY29t
   service_name: voice_command
 
+# =========================================================
+#                   Picovoice Settings
+# =========================================================
+# The configurations in this section descrbie the Picovoice API settings
+picovoice:
+  # Path to the directory where wake word detection model files (.ppn) and speech-to-intent model
+  # files (.rhn) are placed
+  asset_dir: ../assets/picovoice
+  # Your Picovoice API access key
+  access_key: your_picovoice_access_key
+
+# =========================================================
+#         InterPlanetary File System (IPFS) Settings
+# =========================================================
+# The configurations in this section descrbie the IPFS settings
+ipfs:
+  # The path to your IPFS repository directory
+  # Do not use the same repository for the AI component and the assistant component if they are
+  # running on the same host
+  repo_path: /home/pi/.ipfs_assistant/
+  # The swarm key of IPFS if you would like to connect to a private IPFS network
+  # Leave this field empty to connect to a public IPFS network
+  # This ID is generated using https://github.com/Kubuxu/go-ipfs-swarm-key-gen
+  swarm_key: |
+    /key/swarm/psk/1.0.0/
+    /base16/
+    a1eb10eea29fc978cbf7f9fd936a554cf08c53edb603ecb9d1885b2df8ba663f
+  # The listening multiaddrs of the current peer
+  swarm_addresses:
+    - /ip4/0.0.0.0/tcp/24001
+    - /ip6/::/tcp/24001
+    - /ip4/0.0.0.0/udp/24001/quic
+    - /ip6/::/udp/24001/quic
+  # The multiaddrs of the bootstrap peers
+  # They are usually the IPFS multiaddrs of the AI component
+  bootstrap_peers:
+    - /ip4/127.0.0.1/tcp/14001/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+    - /ip4/127.0.0.1/udp/14001/quic/p2p/QmaCpDMGvV2BGHeYERUEnRQAwe3N8SzbUtfsmvsqQLuvuJ
+
+# =========================================================
+#           Hyperledger Fabric User Identity
+# =========================================================
+# The configurations in this section descrbie the blockchain user credentials used to connect
+# to the blockchain
 client:
+  # The exact name of your organization's membership service provider (MSP)
   organization_id: Org1MSP
+  # Your user's certificate in PEM format
   certificate: |
     -----BEGIN CERTIFICATE-----
     MIICrTCCAlSgAwIBAgIUObkFW7wy0zePdgpNlzoM+9pXbfgwCgYIKoZIzj0EAwIw
@@ -42,6 +77,7 @@ client:
     2kUYf3Q2zDEAcszxXd3xukw1ynpWHK5rxeFzzKEBpwIgavDWdhNgvn+ZZLpacHeW
     hMzp6u1YYlve+Iv6Ds1hMOU=
     -----END CERTIFICATE-----
+  # Your user's private signing key in PEM format
   private_key: |
     -----BEGIN PRIVATE KEY-----
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg8eB7tRtavVtx1p8s
@@ -49,9 +85,17 @@ client:
     7346Km6ttwXqk5EwisJLZYImDyJcUBJnaMj15iKEs0Tyjbnbws1oARar
     -----END PRIVATE KEY-----
 
+# =========================================================
+#           Hyperledger Fabric Gateway Settings
+# =========================================================
+# The configurations in this section descrbie the connection parameters of a Hyperledger Fabric
+# Gateway you connect to
 gateway:
+  # Gateway peer's endpoint
   endpoint: localhost:7051
+  # Gateway peer's overridden TLS server name
   server_name: peer0.org1.example.com
+  # Gateway peer's TLS certificate in PEM format
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
     MIICJzCCAc2gAwIBAgIUWz+UdF9FMpYa9xXibbVzcq+YC1cwCgYIKoZIzj0EAwIw
@@ -68,6 +112,13 @@ gateway:
     Yc7lc3VZV1Nmdzz06yZ1cyfYKYNu+mOvLpvQ
     -----END CERTIFICATE-----
 
+# =========================================================
+#         Hyperledger Fabric Chaincode Information
+# =========================================================
+# The configurations in this section descrbie where to find the IoT Service Blockchain chaincode
+# and smart contracts
 network:
+  # Name of the blockchain network/channel
   name: mychannel
+  # Name of the chaincode package
   chaincode: iotservice

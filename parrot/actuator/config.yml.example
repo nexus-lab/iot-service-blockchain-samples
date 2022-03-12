@@ -1,14 +1,29 @@
+# =========================================================
+#                 IoT Device Information
+# =========================================================
+# The configurations in this section descrbie the device on the IoT Service Blockchain
 device:
   device_name: kitchen_light
   device_description: Kitchen smart light
 
+# =========================================================
+#                 IoT Service Information
+# =========================================================
+# The configurations in this section descrbie the service provided by the above IoT device
 service:
   service_name: kitchen_light_switch
   service_version: 1
   service_description: Kitchen smart light switch
 
+# =========================================================
+#           Hyperledger Fabric User Identity
+# =========================================================
+# The configurations in this section descrbie the blockchain user credentials used to connect
+# to the blockchain
 client:
+  # The exact name of your organization's membership service provider (MSP)
   organization_id: Org2MSP
+  # Your user's certificate in PEM format
   certificate: |
     -----BEGIN CERTIFICATE-----
     MIICqTCCAlCgAwIBAgIUOVBvmT+48dmMU8tDorKT2w5iXqAwCgYIKoZIzj0EAwIw
@@ -27,6 +42,7 @@ client:
     QomoPT7VpaLCDBtjjoH50ZuzgL6pV+WT1Z1KAiBOBq3CdWdGY9/gPX+f51xDSSNl
     dgf4MbjCztZVvi/dog==
     -----END CERTIFICATE-----
+  # Your user's private signing key in PEM format
   private_key: |
     -----BEGIN PRIVATE KEY-----
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg1SQL5D+rag7hkI44
@@ -34,9 +50,17 @@ client:
     w08+v/ixW70r3PbdMLVGxWV+CpB5i6EYfI8vaQRj4eMg/g3lD69hY86U
     -----END PRIVATE KEY-----
 
+# =========================================================
+#           Hyperledger Fabric Gateway Settings
+# =========================================================
+# The configurations in this section descrbie the connection parameters of a Hyperledger Fabric
+# Gateway you connect to
 gateway:
+  # Gateway peer's endpoint
   endpoint: localhost:9051
+  # Gateway peer's overridden TLS server name
   server_name: peer0.org2.example.com
+  # Gateway peer's TLS certificate in PEM format
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
     MIICHjCCAcWgAwIBAgIUerQNkSpfpb2zU04qKk2IxewztUIwCgYIKoZIzj0EAwIw
@@ -53,6 +77,13 @@ gateway:
     yGdkh4TIcJPvsfA+0vatlNTH
     -----END CERTIFICATE-----
 
+# =========================================================
+#         Hyperledger Fabric Chaincode Information
+# =========================================================
+# The configurations in this section descrbie where to find the IoT Service Blockchain chaincode
+# and smart contracts
 network:
+  # Name of the blockchain network/channel
   name: mychannel
+  # Name of the chaincode package
   chaincode: iotservice

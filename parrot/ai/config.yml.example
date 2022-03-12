@@ -1,45 +1,82 @@
+# =========================================================
+#                  Actuator Configuration
+# =========================================================
+# The configurations in this section descrbie the IoT Service Blockchain addresses of actuators the
+# AI component connects to
+# You may remove or add additional actuators
+# The key is the `location` slot in the speech-to-intent model, e.g., `kitchen`, `living room`, and
+# `bedroom`
+# You can obtain `organization_id`, `device_id`, and `service_name` of each actuator from previous
+# step
 actuators:
   kitchen:
     organization_id: Org2MSP
     device_id: eDUwOTo6Q049dXNlcjEsQz1VUyxTVD1Ob3J0aCBDYXJvbGluYSxPPUh5cGVybGVkZ2VyLE9VPWNsaWVudDo6Q049Y2Eub3JnMi5leGFtcGxlLmNvbSxDPVVLLEw9SHVyc2xleSxTVD1IYW1wc2hpcmUsTz1vcmcyLmV4YW1wbGUuY29t
     service_name: kitchen_light_switch
-  living room:
-    organization_id: Org2MSP
-    device_id: eDUwOTo6Q049dXNlcjEsQz1VUyxTVD1Ob3J0aCBDYXJvbGluYSxPPUh5cGVybGVkZ2VyLE9VPWNsaWVudDo6Q049Y2Eub3JnMi5leGFtcGxlLmNvbSxDPVVLLEw9SHVyc2xleSxTVD1IYW1wc2hpcmUsTz1vcmcyLmV4YW1wbGUuY29t
-    service_name: living_room_light_switch
-  bedroom:
-    organization_id: Org2MSP
-    device_id: eDUwOTo6Q049dXNlcjEsQz1VUyxTVD1Ob3J0aCBDYXJvbGluYSxPPUh5cGVybGVkZ2VyLE9VPWNsaWVudDo6Q049Y2Eub3JnMi5leGFtcGxlLmNvbSxDPVVLLEw9SHVyc2xleSxTVD1IYW1wc2hpcmUsTz1vcmcyLmV4YW1wbGUuY29t
-    service_name: bedroom_light_switch
 
+# =========================================================
+#                   Picovoice Settings
+# =========================================================
+# The configurations in this section descrbie the Picovoice API settings
 picovoice:
-  asset_dir: assets/picovoice
+  # Path to the directory where wake word detection model files (.ppn) and speech-to-intent model
+  # files (.rhn) are placed
+  asset_dir: ../assets/picovoice
+  # Your Picovoice API access key
   access_key: your_picovoice_access_key
 
+# =========================================================
+#         InterPlanetary File System (IPFS) Settings
+# =========================================================
+# The configurations in this section descrbie the IPFS settings
 ipfs:
+  # The path to your IPFS repository directory
+  # Do not use the same repository for the AI component and the assistant component if they are
+  # running on the same host
   repo_path: /home/pi/.ipfs_ai/
+  # The swarm key of IPFS if you would like to connect to a private IPFS network
+  # Leave this field empty to connect to a public IPFS network
+  # This ID is generated using https://github.com/Kubuxu/go-ipfs-swarm-key-gen
   swarm_key: |
     /key/swarm/psk/1.0.0/
     /base16/
     a1eb10eea29fc978cbf7f9fd936a554cf08c53edb603ecb9d1885b2df8ba663f
+  # The listening multiaddrs of the current peer
   swarm_addresses:
     - /ip4/0.0.0.0/tcp/14001
     - /ip6/::/tcp/14001
     - /ip4/0.0.0.0/udp/14001/quic
     - /ip6/::/udp/14001/quic
+  # The multiaddrs of the bootstrap peers
+  # Leave this empty if this peer is the bootstrap peer
   bootstrap_peers: []
 
+# =========================================================
+#                 IoT Device Information
+# =========================================================
+# The configurations in this section descrbie the device on the IoT Service Blockchain
 device:
   device_name: voice_ai_01
   device_description: IoT Voice AI
 
+# =========================================================
+#                 IoT Service Information
+# =========================================================
+# The configurations in this section descrbie the service provided by the above IoT device
 service:
   service_name: voice_command
   service_version: 1
   service_description: An AI service that translate user voice commands to intents
 
+# =========================================================
+#           Hyperledger Fabric User Identity
+# =========================================================
+# The configurations in this section descrbie the blockchain user credentials used to connect
+# to the blockchain
 client:
+  # The exact name of your organization's membership service provider (MSP)
   organization_id: Org2MSP
+  # Your user's certificate in PEM format
   certificate: |
     -----BEGIN CERTIFICATE-----
     MIICqTCCAlCgAwIBAgIUOVBvmT+48dmMU8tDorKT2w5iXqAwCgYIKoZIzj0EAwIw
@@ -58,6 +95,7 @@ client:
     QomoPT7VpaLCDBtjjoH50ZuzgL6pV+WT1Z1KAiBOBq3CdWdGY9/gPX+f51xDSSNl
     dgf4MbjCztZVvi/dog==
     -----END CERTIFICATE-----
+  # Your user's private signing key in PEM format
   private_key: |
     -----BEGIN PRIVATE KEY-----
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg1SQL5D+rag7hkI44
@@ -65,9 +103,17 @@ client:
     w08+v/ixW70r3PbdMLVGxWV+CpB5i6EYfI8vaQRj4eMg/g3lD69hY86U
     -----END PRIVATE KEY-----
 
+# =========================================================
+#           Hyperledger Fabric Gateway Settings
+# =========================================================
+# The configurations in this section descrbie the connection parameters of a Hyperledger Fabric
+# Gateway you connect to
 gateway:
+  # Gateway peer's endpoint
   endpoint: localhost:9051
+  # Gateway peer's overridden TLS server name
   server_name: peer0.org2.example.com
+  # Gateway peer's TLS certificate in PEM format
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
     MIICHjCCAcWgAwIBAgIUerQNkSpfpb2zU04qKk2IxewztUIwCgYIKoZIzj0EAwIw
@@ -84,6 +130,13 @@ gateway:
     yGdkh4TIcJPvsfA+0vatlNTH
     -----END CERTIFICATE-----
 
+# =========================================================
+#         Hyperledger Fabric Chaincode Information
+# =========================================================
+# The configurations in this section descrbie where to find the IoT Service Blockchain chaincode
+# and smart contracts
 network:
+  # Name of the blockchain network/channel
   name: mychannel
+  # Name of the chaincode package
   chaincode: iotservice
