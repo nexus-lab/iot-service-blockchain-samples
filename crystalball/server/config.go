@@ -7,31 +7,47 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+type StreamConfig struct {
+	ListenAddr   string `yaml:"listen_addr"`
+	ExternalAddr string `yaml:"external_addr"`
+	Key          string `yaml:"key"`
+}
+
+type BlockchainClientConfig struct {
+	OrganizationId string `yaml:"organization_id"`
+	Certificate    string `yaml:"certificate"`
+	PrivateKey     string `yaml:"private_key"`
+}
+
+type BlockchainDeviceConfig struct {
+	DeviceName        string `yaml:"device_name"`
+	DeviceDescription string `yaml:"device_description"`
+}
+
+type BlockchainServiceConfig struct {
+	ServiceName        string `yaml:"service_name"`
+	ServiceVersion     int32  `yaml:"service_version"`
+	ServiceDescription string `yaml:"service_description"`
+}
+
+type BlockchainGatewayConfig struct {
+	Endpoint       string `yaml:"endpoint"`
+	ServerName     string `yaml:"server_name"`
+	TlsCertificate string `yaml:"tls_certificate"`
+}
+
+type BlockchainNetworkConfig struct {
+	Name      string `yaml:"name"`
+	Chaincode string `yaml:"chaincode"`
+}
+
 type Config struct {
-	Stream struct {
-		ListenAddr   string `yaml:"listen_addr"`
-		ExternalAddr string `yaml:"external_addr"`
-		Key          string `yaml:"key"`
-	} `yaml:"stream"`
-	Client struct {
-		OrganizationId     string `yaml:"organization_id"`
-		DeviceName         string `yaml:"device_name"`
-		DeviceDescription  string `yaml:"device_description"`
-		ServiceName        string `yaml:"service_name"`
-		ServiceVersion     int32  `yaml:"service_version"`
-		ServiceDescription string `yaml:"service_description"`
-		Certificate        string `yaml:"certificate"`
-		PrivateKey         string `yaml:"private_key"`
-	} `yaml:"client"`
-	Gateway struct {
-		Endpoint       string `yaml:"endpoint"`
-		ServerName     string `yaml:"server_name"`
-		TlsCertificate string `yaml:"tls_certificate"`
-	} `yaml:"gateway"`
-	Network struct {
-		Name      string `yaml:"name"`
-		Chaincode string `yaml:"chaincode"`
-	}
+	Stream  StreamConfig            `yaml:"stream"`
+	Device  BlockchainDeviceConfig  `yaml:"device"`
+	Service BlockchainServiceConfig `yaml:"service"`
+	Client  BlockchainClientConfig  `yaml:"client"`
+	Gateway BlockchainGatewayConfig `yaml:"gateway"`
+	Network BlockchainNetworkConfig `yaml:"network"`
 }
 
 func LoadConfigFromFile(configPath string) (*Config, error) {

@@ -1,58 +1,102 @@
+# =========================================================
+#              RTMP Streaming Server Settings
+# =========================================================
+# The configurations in this section descrbie the connection settings of this streaming server
 stream:
+  # IP address and port number of the network interface that server listens on
   listen_addr: 0.0.0.0:1935
+  # IP address and port number that the server provides to the streaming clients via the blockchain
+  # It must be an external address that the streaming clients can connect to
   external_addr: 127.0.0.1:1935
+  # The secret key of your choice that is used for publishing media streams to this server
   key: secret_key
 
-client:
-  organization_id: Org2MSP
+# =========================================================
+#                 IoT Device Information
+# =========================================================
+# The configurations in this section descrbie the device on the IoT Service Blockchain
+device:
   device_name: surveillance_camera_01
   device_description: A demo surveillance camera
+
+# =========================================================
+#                 IoT Service Information
+# =========================================================
+# The configurations in this section descrbie the service provided by the above IoT device
+service:
   service_name: streaming
   service_version: 1
   service_description: A demo surveillance camera feed streaming service
+
+# =========================================================
+#           Hyperledger Fabric User Identity
+# =========================================================
+# The configurations in this section descrbie the blockchain user credentials used to connect
+# to the blockchain
+client:
+  # The exact name of your organization's membership service provider (MSP)
+  organization_id: Org1MSP
+  # Your user's certificate in PEM format
   certificate: |
     -----BEGIN CERTIFICATE-----
-    MIICmTCCAkCgAwIBAgIUfluHpENvhOLf8y/qO4BBAdLAt88wCgYIKoZIzj0EAwIw
-    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
-    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
-    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMTExNjQ0MDBaFw0yMzAyMTExNjQ5MDBaMF0x
-    CzAJBgNVBAYTAlVTMRcwFQYDVQQIEw5Ob3J0aCBDYXJvbGluYTEUMBIGA1UEChML
-    SHlwZXJsZWRnZXIxDzANBgNVBAsTBmNsaWVudDEOMAwGA1UEAxMFdXNlcjEwWTAT
-    BgcqhkjOPQIBBggqhkjOPQMBBwNCAARQvE8tS932/ME08JFDpKcw5YagOo65k3Cj
-    rv/XYX+EySY+PL2XFpQjaRfFWfTpwMYiLncneMfnuXd+wU3Fglddo4HOMIHLMA4G
-    A1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBSmpW8zZ5kb5b+w
-    eqASl5iWV8hluzAfBgNVHSMEGDAWgBQTWE347aIIypzmzQq3iwqdFR4haTARBgNV
-    HREECjAIggZIb21lUEMwWAYIKgMEBQYHCAEETHsiYXR0cnMiOnsiaGYuQWZmaWxp
-    YXRpb24iOiIiLCJoZi5FbnJvbGxtZW50SUQiOiJ1c2VyMSIsImhmLlR5cGUiOiJj
-    bGllbnQifX0wCgYIKoZIzj0EAwIDRwAwRAIgZt5zz/C+v1Fij8IXQoov8pZBAqfT
-    wyl6wc1CnQcK2xkCIG/FCkgKtzCJjbzC1qWfXKKZqlCmyVF9HQRgYJGCqKsI
+    MIICnjCCAkSgAwIBAgIUZdohrSFFtIeMCR3BI/KYftiny34wCgYIKoZIzj0EAwIw
+    cDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH
+    EwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh
+    Lm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwMjE2MDUxMjAwWhcNMjMwMjE2MDUxNzAw
+    WjBdMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExFDASBgNV
+    BAoTC0h5cGVybGVkZ2VyMQ8wDQYDVQQLEwZjbGllbnQxDjAMBgNVBAMTBXVzZXIx
+    MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEaavdDcM0JVdIcjpt5BDb3S+mxNSo
+    mvT7OwEqdLXlXGegTWJEyQW6i/3omekrSnQjoISr2xVLkh4DRQYQQ8ywTaOBzjCB
+    yzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUg87DkpQX
+    8DrkaedNziEXJWwuzLYwHwYDVR0jBBgwFoAUrae0oUrSUYF8tpjAJ5+ixbeB11ww
+    EQYDVR0RBAowCIIGSG9tZVBDMFgGCCoDBAUGBwgBBEx7ImF0dHJzIjp7ImhmLkFm
+    ZmlsaWF0aW9uIjoiIiwiaGYuRW5yb2xsbWVudElEIjoidXNlcjEiLCJoZi5UeXBl
+    IjoiY2xpZW50In19MAoGCCqGSM49BAMCA0gAMEUCIQDOjh6mc14vKCMi46YpkErj
+    xOp5OHg1E9gnGF2iQd37aQIgeDrbajN5iOfyTITGiwQRNXsbWgXH3PlQiuj2en9l
+    v7o=
     -----END CERTIFICATE-----
+  # Your user's private signing key in PEM format
   private_key: |
     -----BEGIN PRIVATE KEY-----
-    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgj0yiEh/jeUjlTJte
-    j81nvnA9siTaKmFYG5PmirYMI3ahRANCAARQvE8tS932/ME08JFDpKcw5YagOo65
-    k3Cjrv/XYX+EySY+PL2XFpQjaRfFWfTpwMYiLncneMfnuXd+wU3Fgldd
+    MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgGsj+AASVDJCTQBPv
+    BfR065VJ6PkXuMB4fIhry2L0VM+hRANCAARpq90NwzQlV0hyOm3kENvdL6bE1Kia
+    9Ps7ASp0teVcZ6BNYkTJBbqL/eiZ6StKdCOghKvbFUuSHgNFBhBDzLBN
     -----END PRIVATE KEY-----
 
+# =========================================================
+#           Hyperledger Fabric Gateway Settings
+# =========================================================
+# The configurations in this section descrbie the connection parameters of a Hyperledger Fabric
+# Gateway you connect to
 gateway:
-  endpoint: localhost:9051
-  server_name: peer0.org2.example.com
+  # Gateway peer's endpoint
+  endpoint: localhost:7051
+  # Gateway peer's overridden TLS server name
+  server_name: peer0.org1.example.com
+  # Gateway peer's TLS certificate in PEM format
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
-    MIICHzCCAcWgAwIBAgIUWgGr+cCpb+Z7XZQAI2V+krUYrdowCgYIKoZIzj0EAwIw
-    bDELMAkGA1UEBhMCVUsxEjAQBgNVBAgTCUhhbXBzaGlyZTEQMA4GA1UEBxMHSHVy
-    c2xleTEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eub3Jn
-    Mi5leGFtcGxlLmNvbTAeFw0yMjAyMTExNjQ0MDBaFw0zNzAyMDcxNjQ0MDBaMGwx
-    CzAJBgNVBAYTAlVLMRIwEAYDVQQIEwlIYW1wc2hpcmUxEDAOBgNVBAcTB0h1cnNs
-    ZXkxGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2NhLm9yZzIu
-    ZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASKbLOJR3O32Py3
-    7ZpRKs1VsYucgFl3w0VaeujhoY07prY2xFHLnAKymyLVTyMi5cj/Bv4ud2FNEvb7
-    1fq9ozWXo0UwQzAOBgNVHQ8BAf8EBAMCAQYwEgYDVR0TAQH/BAgwBgEB/wIBATAd
-    BgNVHQ4EFgQUE1hN+O2iCMqc5s0Kt4sKnRUeIWkwCgYIKoZIzj0EAwIDSAAwRQIh
-    AIpZknJmW20jdOhsXZBVnNFdDbGY7qhFCdC8KJRLRBK1AiB0wLwsTfR5ex6YtdFM
-    dfPE4h1vbahtE+PUb2eR7gf8nQ==
+    MIICJzCCAc2gAwIBAgIUOmrx5aNKAzavY6DJa2VgEqD90xAwCgYIKoZIzj0EAwIw
+    cDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH
+    EwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh
+    Lm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwMjE2MDUxMjAwWhcNMzcwMjEyMDUxMjAw
+    WjBwMQswCQYDVQQGEwJVUzEXMBUGA1UECBMOTm9ydGggQ2Fyb2xpbmExDzANBgNV
+    BAcTBkR1cmhhbTEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMT
+    Y2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABIkY
+    lrzkZ6i3vRRmyz+AEVgZ0871ekpKy8C7Uk+KZ88UcQ4WiNjJcBYuZSApEleIuGxU
+    9Rbs5pd2+wJuDce6dyyjRTBDMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAG
+    AQH/AgEBMB0GA1UdDgQWBBStp7ShStJRgXy2mMAnn6LFt4HXXDAKBggqhkjOPQQD
+    AgNIADBFAiEAjq1m7jsuN5eINn7Mg4Zk/oBOezNaA8wL2+hJRPzVo8MCIBsUzAAi
+    8de9XO4J261Ofe+uGwGM/gYQ8vzuOGj1H/sY
     -----END CERTIFICATE-----
 
+# =========================================================
+#         Hyperledger Fabric Chaincode Information
+# =========================================================
+# The configurations in this section descrbie where to find the IoT Service Blockchain chaincode
+# and smart contracts
 network:
+  # Name of the blockchain network/channel
   name: mychannel
+  # Name of the chaincode package
   chaincode: iotservice

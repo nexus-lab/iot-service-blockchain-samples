@@ -6,33 +6,33 @@ A smart voice control system built on the IoT Service Blockchain.
 
 - **Actuators**
 
-  Actuators are IoT devices connected to the IoT Service Blockchain.
-  They listen to service requests on blockchain and interact with their environment based on the
-  request content.
-  For example, an actuator can be a smart light which can switch itself on and off based on
-  the service request argument.
+    Actuators are IoT devices connected to the IoT Service Blockchain.
+    They listen to service requests on blockchain and interact with their environment based on the
+    request content.
+    For example, an actuator can be a smart light which can switch itself on and off based on
+    the service request argument.
 
-  _Source code: [actuator](actuator/)_
+    _Source code: [actuator](actuator/)_
 
 - **AI**
 
-  The AI component is the central hub for receiving voice commands sent by voice assistants on IoT
-  Service Blockchain and translating them into user intents using speech-to-intent machine learning
-  engine.
-  It listens for voice command service request on blockchain and fetch audio data from IPFS.
+    The AI component is the central hub for receiving voice commands sent by voice assistants on IoT
+    Service Blockchain and translating them into user intents using speech-to-intent machine learning
+    engine.
+    It listens for voice command service request on blockchain and fetch audio data from IPFS.
 
-  _Source code: [ai](ai/)_
+    _Source code: [ai](ai/)_
 
 - **Assistant**
 
-  Voice assistants are IoT devices that listen for and record user voice commands.
-  To achieve better energy efficiency and user privacy, it uses wake word detection to only respond
-  to voice commands that start with a specific wake word, such as "Hey Google" or "Hi Alexa".
-  Then, it determine the duration of the command with voice activity detection.
-  A voice assistant must feature a microphone to record audio.
-  The recorded audio will be sent to the AI component via IoT Service Blockchain and IPFS.
+    Voice assistants are IoT devices that listen for and record user voice commands.
+    To achieve better energy efficiency and user privacy, it uses wake word detection to only respond
+    to voice commands that start with a specific wake word, such as "Hey Google" or "Hi Alexa".
+    Then, it determine the duration of the command with voice activity detection.
+    A voice assistant must feature a microphone to record audio.
+    The recorded audio will be sent to the AI component via IoT Service Blockchain and IPFS.
 
-  _Source code: [assistant](assistant/)_
+    _Source code: [assistant](assistant/)_
 
 ## Installation & Running
 

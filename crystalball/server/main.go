@@ -1,19 +1,17 @@
 package main
 
 import (
-	"os"
+	"flag"
 	"sync"
 
 	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	configPath := "./config.yml"
-	if len(os.Args) > 1 {
-		configPath = os.Args[1]
-	}
+	configPath := flag.String("config", "config.yml", "Path to the configuration file")
+	flag.Parse()
 
-	config, err := LoadConfigFromFile(configPath)
+	config, err := LoadConfigFromFile(*configPath)
 	if err != nil {
 		logrus.Fatalf("failed to load configuration from file %s: %s", configPath, err.Error())
 	}

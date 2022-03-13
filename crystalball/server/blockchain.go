@@ -137,11 +137,11 @@ func NewBlockchainService(config *Config, tokenStore *TokenStore) (*BlockchainSe
 		StreamingAddr:      config.Stream.ExternalAddr,
 		OrganizationId:     sdk.GetOrganizationId(),
 		DeviceId:           sdk.GetDeviceId(),
-		DeviceName:         config.Client.DeviceName,
-		DeviceDescription:  config.Client.DeviceDescription,
-		ServiceName:        config.Client.ServiceName,
-		ServiceVersion:     config.Client.ServiceVersion,
-		ServiceDescription: config.Client.ServiceDescription,
+		DeviceName:         config.Device.DeviceName,
+		DeviceDescription:  config.Device.DeviceDescription,
+		ServiceName:        config.Service.ServiceName,
+		ServiceVersion:     config.Service.ServiceVersion,
+		ServiceDescription: config.Service.ServiceDescription,
 	}
 
 	if err = service.prepare(); err != nil {
