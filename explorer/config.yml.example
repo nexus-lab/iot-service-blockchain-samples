@@ -1,5 +1,12 @@
+# =========================================================
+#           Hyperledger Fabric User Identity
+# =========================================================
+# The configurations in this section descrbie the blockchain user credentials used to connect
+# to the blockchain
 client:
+  # The exact name of your organization's membership service provider (MSP)
   organization_id: Org1MSP
+  # Your user's certificate in PEM format
   certificate: |
     -----BEGIN CERTIFICATE-----
     MIICnjCCAkSgAwIBAgIUCn4N8VcIn79OIIfCKHXxRW6F8M0wCgYIKoZIzj0EAwIw
@@ -18,6 +25,7 @@ client:
     1r0HUlBkivG+9oaDrs/yUAIgYacOyOPW+7fNFHfqRdvELlbBzzvR5OC6bAL+fHFp
     rTQ=
     -----END CERTIFICATE-----
+  # Your user's private signing key in PEM format
   private_key: |
     -----BEGIN PRIVATE KEY-----
     MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgkxJKUZLlFc8YuY2j
@@ -25,9 +33,17 @@ client:
     kUFL/MTp50fCfcmA9FmVgrdwWlSSry/QSQRQuajuW27m0s0+5cWhKA96
     -----END PRIVATE KEY-----
 
+# =========================================================
+#           Hyperledger Fabric Gateway Settings
+# =========================================================
+# The configurations in this section descrbie the connection parameters of a Hyperledger Fabric
+# Gateway you connect to
 gateway:
+  # Gateway peer's endpoint
   endpoint: localhost:7051
+  # Gateway peer's overridden TLS server name
   server_name: peer0.org1.example.com
+  # Gateway peer's TLS certificate in PEM format
   tls_certificate: |
     -----BEGIN CERTIFICATE-----
     MIICJzCCAc2gAwIBAgIUG443I5GPyugztsOJjwO7Eqdl0UgwCgYIKoZIzj0EAwIw
@@ -44,6 +60,13 @@ gateway:
     9Vru75bpaSv7+Bb/9eCqsxKva4DJNCeOaY2P
     -----END CERTIFICATE-----
 
+# =========================================================
+#         Hyperledger Fabric Chaincode Information
+# =========================================================
+# The configurations in this section descrbie where to find the IoT Service Blockchain chaincode
+# and smart contracts
 network:
+  # Name of the blockchain network/channel
   name: mychannel
+  # Name of the chaincode package
   chaincode: iotservice
