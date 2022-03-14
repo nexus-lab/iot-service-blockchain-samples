@@ -4,6 +4,8 @@ A smart voice control system built on the IoT Service Blockchain.
 
 ## System Architecture & Components
 
+<img src="./assets/architecture.png" alt="App Screenshot" width="640"/>
+
 - **Actuators**
 
     Actuators are IoT devices connected to the IoT Service Blockchain.
@@ -12,7 +14,7 @@ A smart voice control system built on the IoT Service Blockchain.
     For example, an actuator can be a smart light which can switch itself on and off based on
     the service request argument.
 
-    _Source code: [actuator](actuator/)_
+    _Source code: [actuator](./actuator/)_
 
 - **AI**
 
@@ -21,7 +23,7 @@ A smart voice control system built on the IoT Service Blockchain.
     engine.
     It listens for voice command service request on blockchain and fetch audio data from IPFS.
 
-    _Source code: [ai](ai/)_
+    _Source code: [ai](./ai/)_
 
 - **Assistant**
 
@@ -32,7 +34,7 @@ A smart voice control system built on the IoT Service Blockchain.
     A voice assistant must feature a microphone to record audio.
     The recorded audio will be sent to the AI component via IoT Service Blockchain and IPFS.
 
-    _Source code: [assistant](assistant/)_
+    _Source code: [assistant](./assistant/)_
 
 ## Installation & Running
 

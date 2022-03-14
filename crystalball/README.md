@@ -15,6 +15,8 @@ An Android app that streams live video feeds of IoT devices using IoT Service Bl
 
 ## System Architecture & Components
 
+<img src="./assets/architecture.png" alt="App Screenshot" width="640"/>
+
 - **Server**
 
     An IoT devices such as a surveillance camera can publish its media stream to the streaming server.
@@ -23,7 +25,7 @@ An Android app that streams live video feeds of IoT devices using IoT Service Bl
     When receive such request, the server respond a URL of the published media stream with access
     token for viewing through the blockchain.
 
-    _Source code: [server](server/)_
+    _Source code: [server](./server/)_
 
 - **App**
 
@@ -31,7 +33,7 @@ An Android app that streams live video feeds of IoT devices using IoT Service Bl
     It request stream URL and access token from the server via the IoT Service Blockchain.
     The user can also manage a list of connection profiles through the app for quick access.
 
-    _Source code: [app](app/)_
+    _Source code: [app](./app/)_
 
 
 ## Installation & Running
