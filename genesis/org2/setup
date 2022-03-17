@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+export X_FABRIC_ORG=org2
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+. ${SCRIPT_DIR}/../lib/setenv
+. ${SCRIPT_DIR}/../lib/utils
+. ${SCRIPT_DIR}/../lib/install
+. ${SCRIPT_DIR}/../lib/certificate
+. ${SCRIPT_DIR}/../lib/channel
+. ${SCRIPT_DIR}/../lib/chaincode
+
+check_root
+
+add_hosts
+
+install_deps
+install_golang
+install_docker
+install_fabric_binaries
+install_fabric_ca_server
+install_fabric_ca_client
+
+register_and_enroll_user_tls peer peer0 ${X_ORG2_PEER0_HOST}
+register_and_enroll_user admin org2admin
+register_and_enroll_user client user1
+
+install_fabric_peer
+
+prompt_copy_msp_and_tls_files
+wait_msp_and_tls_files
+
+wait_genesis_block
+join_channel
+set_anchor_peer
+
+prompt_chaincode_source
+package_chaincode
+install_chaincode
+approve_chaincode
+wait_chaincode_approved
+wait_chaincode_committed
+
+log_info "👉 Fabric Peer setup completed!"

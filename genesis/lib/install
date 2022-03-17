@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+. ${SCRIPT_DIR}/setenv
+. ${SCRIPT_DIR}/utils
+
+function add_hosts {
+  log_info "👉 Adding hosts and addresses to /etc/hosts..."
+
+  for host in ${X_ORDERER_HOST} ${X_ORG1_PEER0_HOST} ${X_ORG2_PEER0_HOST}; do
+    if [[ -z $(grep ${host} /etc/hosts) ]]; then
+      echo "Enter the external IP address of ${host}:"
+      read address && echo "${address} ${host}" >> /etc/hosts
+    fi
+  done
+}
+
+function install_deps {
+  log_info "👉 Installing system dependencies..."
+
+  apt update
+  apt install -y curl jq
+}
+
+function install_golang {
+  log_info "👉 Installing Go..."
+
+  if (! $(go version > /dev/null 2>&1)); then
+    local target=$(mktemp)
+
+    curl -L https://go.dev/dl/go1.18.linux-amd64.tar.gz -o ${target}
+    rm -rf /usr/local/go
+    tar -C /usr/local -xzf ${target}
+
+    rm -rf ${target}
+  fi
+}
+
+function install_docker {
+  log_info "👉 Installing Docker..."
+
+  if (! $(docker version > /dev/null 2>&1)); then
+    curl -s https://get.docker.com/ | bash -s
+  fi
+}
+
+function install_systemd_service {
+  local source=$1
+  local name=$2
+
+  cp ${source} /lib/systemd/system/${name}.service
+
+  systemctl daemon-reload
+  systemctl enable ${name}.service
+  systemctl start ${name}.service
+
+  sleep 3
+
+  ret=$(systemctl status ${name}.service >/dev/null 2>&1; echo $?)
+  if [[ $ret -ne 0 ]]; then
+    log_error "Failed to start ${name}.service"
+    return $ret
+  fi
+}
+
+function install_fabric_binaries {
+  log_info "👉 Installing Fabric binaries..."
+
+  mkdir -p ${FABRIC_CFG_PATH}
+  local tmp=$(mktemp -d)
+
+  pushd ${tmp} > /dev/null
+  curl -L "https://raw.github.com/hyperledger/fabric/v${X_FABRIC_VERSION}/scripts/bootstrap.sh" |\
+      bash -s -- ${X_FABRIC_VERSION} ${X_FABRIC_CA_VERSION} -d -s
+  mv bin/* /usr/local/bin && rm -rf bin/
+  mv config/* ${FABRIC_CFG_PATH} && rm -rf config/
+
+  popd >/dev/null
+  cp node/configtx.yaml ${FABRIC_CFG_PATH}
+
+  rm -rf ${tmp}
+}
+
+function install_fabric_ca_server {
+  log_info "👉 Installing Fabric CA server..."
+
+  mkdir -p ${FABRIC_CA_SERVER_HOME}
+
+  cp $(pwd)/ca/fabric-ca-server-config.yaml ${FABRIC_CA_SERVER_HOME}
+
+  install_systemd_service $(pwd)/ca/fabric-ca-server.service fabric-ca-server
+}
+
+function install_fabric_ca_client {
+  log_info "👉 Installing Fabric CA client..."
+
+  mkdir -p ${FABRIC_CA_CLIENT_HOME}
+
+  fabric-ca-client enroll \
+      --url "https://admin:adminpw@localhost:7054" \
+      --caname ca-${X_FABRIC_ORG} \
+      --tls.certfiles "${FABRIC_CA_SERVER_HOME}/tls-cert.pem"
+
+  cp $(pwd)/msp/config.yaml ${FABRIC_CA_CLIENT_HOME}/msp/config.yaml
+}
+
+function install_fabric_orderer {
+  log_info "👉 Installing Fabric Orderer..."
+
+  install_systemd_service $(pwd)/node/fabric-orderer.service fabric-orderer
+}
+
+function install_fabric_peer {
+  log_info "👉 Installing Fabric Peer..."
+
+  install_systemd_service $(pwd)/node/fabric-peer.service fabric-peer
+}

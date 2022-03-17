@@ -1,0 +1,48 @@
+{
+  "name": "test-network",
+  "version": "1.0.0",
+  "client": {
+    "tlsEnable": true,
+    "adminCredential": {
+      "id": "exploreradmin",
+      "password": "exploreradminpw"
+    },
+    "enableAuthentication": true,
+    "organization": "Org1MSP",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "mychannel": {
+      "peers": {
+        "peer0.org1.example.com": {}
+      }
+    }
+  },
+  "organizations": {
+    "Org1MSP": {
+      "mspid": "Org1MSP",
+      "adminPrivateKey": {
+        "path": "/var/hyperledger/fabric/org1/users/org1admin/msp/keystore/cb86cd3569134ee7bb9e507fc712f92c44b029fc5d8948a59b55fd308aae5566_sk"
+      },
+      "peers": ["peer0.org1.example.com"],
+      "signedCert": {
+        "path": "/var/hyperledger/fabric/org1/users/org1admin/msp/signcerts/cert.pem"
+      }
+    }
+  },
+  "peers": {
+    "peer0.org1.example.com": {
+      "tlsCACerts": {
+        "path": "/var/hyperledger/fabric/org1/users/peer0/tls/ca.crt"
+      },
+      "url": "grpcs://peer0.org1.example.com:7051"
+    }
+  }
+}

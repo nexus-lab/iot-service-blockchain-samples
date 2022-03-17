@@ -1,0 +1,30 @@
+[Unit]
+Description=Hyperledger Fabric Peer Node
+Documentation=https://hyperledger-fabric.readthedocs.io/
+Wants=network-online.target
+After=network-online.target
+[Service]
+Type=simple
+Restart=on-failure
+Environment=FABRIC_LOGGING_SPEC=INFO
+Environment=CORE_PEER_TLS_ENABLED=true
+Environment=CORE_PEER_PROFILE_ENABLED=false
+Environment=CORE_PEER_TLS_CERT_FILE=/var/hyperledger/fabric/org1/users/peer0/tls/server.crt
+Environment=CORE_PEER_TLS_KEY_FILE=/var/hyperledger/fabric/org1/users/peer0/tls/server.key
+Environment=CORE_PEER_TLS_ROOTCERT_FILE=/var/hyperledger/fabric/org1/users/peer0/tls/ca.crt
+Environment=CORE_PEER_ID=peer0.org1.example.com
+Environment=CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+Environment=CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+Environment=CORE_PEER_CHAINCODEADDRESS=peer0.org1.example.com:7052
+Environment=CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+Environment=CORE_PEER_GOSSIP_BOOTSTRAP=peer0.org1.example.com:7051
+Environment=CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
+Environment=CORE_PEER_LOCALMSPID=Org1MSP
+Environment=CORE_PEER_MSPCONFIGPATH=/var/hyperledger/fabric/org1/users/peer0/msp
+Environment=CORE_OPERATIONS_LISTENADDRESS=peer0.org1.example.com:9444
+Environment=CORE_METRICS_PROVIDER=prometheus
+Environment=CORE_CHAINCODE_EXECUTETIMEOUT=300s
+Environment=CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0org1"}
+ExecStart=/usr/local/bin/peer node start
+[Install]
+WantedBy=multi-user.target

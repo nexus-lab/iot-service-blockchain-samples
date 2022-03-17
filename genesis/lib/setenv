@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+function capitalize {
+  echo $1 | sed 's/[^ _-]*/\u&/g'
+}
+
+function uppercase {
+  echo $1 | tr '[:lower:]' '[:upper:]'
+}
+
+# Public variables
+
+X_FABRIC_ORG=${X_FABRIC_ORG:-""}
+X_FABRIC_CHANNEL=${X_FABRIC_CHANNEL:-"mychannel"}
+X_FABRIC_VERSION=${X_FABRIC_VERSION:-2.4.3}
+X_FABRIC_CA_VERSION=${X_FABRIC_CA_VERSION:-1.5.2}
+X_FABRIC_HOME=/var/hyperledger/fabric
+
+X_ORDERER_HOST=orderer.example.com
+X_ORDERER_MSP_DIR=${X_FABRIC_HOME}/orderer/msp
+X_ORDERER_TLS_DIR=${X_FABRIC_HOME}/orderer/users/orderer/tls
+
+X_ORG1_PEER0_HOST=peer0.org1.example.com
+X_ORG1_MSP_DIR=${X_FABRIC_HOME}/org1/msp
+X_ORG1_TLS_DIR=${X_FABRIC_HOME}/org1/users/peer0/tls
+
+X_ORG2_PEER0_HOST=peer0.org2.example.com
+X_ORG2_MSP_DIR=${X_FABRIC_HOME}/org2/msp
+X_ORG2_TLS_DIR=${X_FABRIC_HOME}/org2/users/peer0/tls
+
+X_CHAINCODE_NAME=${X_CHAINCODE_NAME:-"iotservice"}
+X_CHAINCODE_VERSION=${X_CHAINCODE_VERSION:-"1.0"}
+X_CHAINCODE_SEQUENCE=${X_CHAINCODE_SEQUENCE:-"1"}
+
+export PATH=$PATH:/usr/local/go/bin
+
+export FABRIC_CFG_PATH=/etc/hyperledger/fabric
+export FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+export FABRIC_CA_CLIENT_HOME=${X_FABRIC_HOME}/${X_FABRIC_ORG}
+
+export CORE_PEER_TLS_ENABLED=true
+export CORE_PEER_LOCALMSPID="$(capitalize ${X_FABRIC_ORG})MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=${FABRIC_CA_CLIENT_HOME}/users/peer0/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=${FABRIC_CA_CLIENT_HOME}/users/${X_FABRIC_ORG}admin/msp
+export CORE_PEER_ADDRESS=peer0.${X_FABRIC_ORG}.example.com:7051
