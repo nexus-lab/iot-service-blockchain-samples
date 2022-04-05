@@ -199,10 +199,10 @@ Application: &ApplicationDefaults
             Type: ImplicitMeta
             Rule: "MAJORITY Admins"
         LifecycleEndorsement:
-            Type: Signature
+            Type: ImplicitMeta
             Rule: "MAJORITY Endorsement"
         Endorsement:
-            Type: Signature
+            Type: ImplicitMeta
             Rule: "MAJORITY Endorsement"
 
     Capabilities:
