@@ -1,0 +1,58 @@
+version: '2.1'
+
+volumes:
+  pgdata:
+  walletstore:
+
+networks:
+  internal:
+
+services:
+  explorerdb:
+    image: hyperledger/explorer-db:1.1.8
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    healthcheck:
+      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  explorer:
+    image: hyperledger/explorer:1.1.8
+    environment:
+      - DATABASE_HOST=explorerdb
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWD=password
+      - LOG_LEVEL_APP=debug
+      - LOG_LEVEL_DB=debug
+      - LOG_LEVEL_CONSOLE=info
+      - LOG_CONSOLE_STDOUT=true
+      - DISCOVERY_AS_LOCALHOST=false
+    extra_hosts:
+      - "orderer1.example.com:172.16.0.2"
+      - "orderer2.example.com:172.16.0.3"
+      - "orderer3.example.com:172.16.0.4"
+      - "peer1.org1.example.com:172.16.0.5"
+      - "peer2.org1.example.com:172.16.0.6"
+      - "peer1.org2.example.com:172.16.0.7"
+      - "peer2.org2.example.com:172.16.0.8"
+    volumes:
+      - ./config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./connection-profile:/opt/explorer/app/platform/fabric/connection-profile
+      - ../crypto-config:/var/hyperledger/fabric
+      - walletstore:/opt/explorer/wallet
+    ports:
+      - 8080:8080
+    depends_on:
+      explorerdb:
+        condition: service_healthy
+    networks:
+      - internal
