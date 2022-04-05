@@ -42,7 +42,8 @@ Here is the directory structure after following the installation instructions:
 
 - Seven virtual or baremetal machines configured as shown in the [Testbed Setup](#testbed-setup)
     section
-- Install [Go](https://go.dev/) 1.16 or newer on **all peer nodes** (`peer*.org*.example.com`)
+- Install [Go](https://go.dev/) 1.16 or newer on **all peer nodes** (`peer*.org*.example.com`) and
+    add it to your `PATH` environment variable.
 - Install [Docker](https://www.docker.com/) on **all peer nodes** (`peer*.org*.example.com`), add
     your user to the `docker` user group, and reboot your machine to make changes take effect.
 - Ensure that each node can connect to others using the hostname `*.example.com`.
@@ -206,7 +207,21 @@ Here is the directory structure after following the installation instructions:
                                     --version 1 \
                                     --sequence 1 \
                                     --tls \
-                                    --cafile "${PWD}"/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt
+                                    --cafile "${PWD}"/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt \
+                                    --peerAddresses peer1.org1.example.com:7051 \
+                                    --tlsRootCertFiles ${PWD}/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt \
+                                    --peerAddresses peer1.org2.example.com:7051 \
+                                    --tlsRootCertFiles ${PWD}/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
+    ```
+
+1. You can use the following query on **any peer node** (`peer*.org*.example.com`) to check if the
+    chaincode is successfully installed and activated:
+
+    ```
+    (peer*.org*.example.com) $ peer chaincode query \
+                                    -C mychannel \
+                                    -n iotservice \
+                                    -c '{"Args":["device_registry:getAll","Org1MSP"]}'
     ```
 
 ### Run blockchain explorer (Optional)
@@ -214,7 +229,7 @@ Here is the directory structure after following the installation instructions:
 1. To run the blockchain explorer, first install [Docker](https://www.docker.com/) and 
     [Docker Compose](https://docs.docker.com/compose/) on your **local machine**.
 
-1. Change directory to `explorer`:
+1. Change directory to `explorer` under the `gaia` project:
 
     ```
     (local)  $ cd explorer
@@ -225,9 +240,12 @@ Here is the directory structure after following the installation instructions:
     ```
     (local)  $ docker-compose up -d
     ```
+    
+    You can change the `extra_hosts` settings of the `explorer` service if the external IP addresses
+    of the nodes are different from the default setup.
 
-1. Finally, open `http://localhost:8080` from your browser and use the username `exploreradmin` and
-    password `exploreradminpw` to sign into the blockchain explorer.
+1. Finally, open [http://localhost:8080](http://localhost:8080) from your browser and use the
+    username `exploreradmin` and password `exploreradminpw` to sign into the blockchain explorer.
 
 ### Clean up the network
 
