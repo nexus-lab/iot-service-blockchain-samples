@@ -10,13 +10,13 @@ Here is a minimal sample of the testbed configuration:
 
 | Name                   | CPU (Cores) | Memory (MB) | Disk (GB) | IP         | OS             |
 |------------------------|-------------|-------------|-----------|------------|----------------|
-| orderer1.example.com   | 1           | 1024        | 10        | 172.16.0.2 | Ubuntu 20.04.4 |
-| orderer2.example.com   | 1           | 1024        | 10        | 172.16.0.3 | Ubuntu 20.04.4 |
-| orderer3.example.com   | 1           | 1024        | 10        | 172.16.0.4 | Ubuntu 20.04.4 |
-| peer1.org1.example.com | 1           | 2048        | 10        | 172.16.0.5 | Ubuntu 20.04.4 |
-| peer2.org1.example.com | 1           | 2048        | 10        | 172.16.0.6 | Ubuntu 20.04.4 |
-| peer1.org2.example.com | 1           | 2048        | 10        | 172.16.0.7 | Ubuntu 20.04.4 |
-| peer2.org2.example.com | 1           | 2048        | 10        | 172.16.0.8 | Ubuntu 20.04.4 |
+| orderer1.example.com   | 2           | 4096        | 40        | 172.16.0.2 | Ubuntu 20.04.4 |
+| orderer2.example.com   | 2           | 4096        | 40        | 172.16.0.3 | Ubuntu 20.04.4 |
+| orderer3.example.com   | 2           | 4096        | 40        | 172.16.0.4 | Ubuntu 20.04.4 |
+| peer1.org1.example.com | 2           | 4096        | 40        | 172.16.0.5 | Ubuntu 20.04.4 |
+| peer2.org1.example.com | 2           | 4096        | 40        | 172.16.0.6 | Ubuntu 20.04.4 |
+| peer1.org2.example.com | 2           | 4096        | 40        | 172.16.0.7 | Ubuntu 20.04.4 |
+| peer2.org2.example.com | 2           | 4096        | 40        | 172.16.0.8 | Ubuntu 20.04.4 |
 
 Here is the directory structure after following the installation instructions:
 
