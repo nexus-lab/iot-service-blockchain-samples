@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 set -eu
 
+ulimit -n 1048576
+
 # look for binaries in local dev environment /build/bin directory and then in local samples /bin directory
 export PATH="${PWD}"/../../fabric/build/bin:"${PWD}"/../bin:"$PATH"
 export FABRIC_CFG_PATH="${PWD}"/../config
