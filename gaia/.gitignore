@@ -2,3 +2,4 @@ channel-artifacts/
 crypto-config/
 data/
 *.gz
+iot-service-blockchain/
