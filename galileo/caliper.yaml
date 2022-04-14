@@ -1,0 +1,18 @@
+caliper:
+  workspace: ./
+
+  flow:
+    only:
+      test: true
+  
+  worker:
+    remote: true
+    pollinterval: 1000
+    communication:
+      method: mqtt
+      address: mqtt://manager.caliper.example.com:1883
+  
+  fabric:
+    gateway:
+      enabled: true
+      localhost: false

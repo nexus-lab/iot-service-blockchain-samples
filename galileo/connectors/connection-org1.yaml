@@ -1,0 +1,60 @@
+---
+name: test-network-org1
+version: 1.0.0
+client:
+  organization: Org1
+  connection:
+    timeout:
+      peer:
+        endorser: '300'
+organizations:
+  Org1:
+    mspid: Org1MSP
+    peers:
+    - peer1.org1.example.com
+    - peer2.org1.example.com
+peers:
+  peer1.org1.example.com:
+    url: grpcs://peer1.org1.example.com:7051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICWTCCAf6gAwIBAgIRAKzrgP0WUixLnkt9vifchLswCgYIKoZIzj0EAwIwdjEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs
+        c2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwNDA3MjAxOTAwWhcNMzIwNDA0MjAx
+        OTAwWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE
+        BxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0G
+        A1UEAxMWdGxzY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49
+        AwEHA0IABAdZidY7Bft1DsU9Le4qM6C9SyV7CfH487ceaRHIV1c47lInU4Be9NjZ
+        rVKWtzyxLXorARovD5E9Gv0+f9453mqjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV
+        HSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNV
+        HQ4EIgQgVunee0J+1IuzdL8QAyo1HJ6W0p2MGOqRP+xH6L0wUCwwCgYIKoZIzj0E
+        AwIDSQAwRgIhAIU2OODYYTrW24h4SIkNy7KzHbz5UZYMS5/TM3rVJHVIAiEAprxq
+        1PSU7JI01eHR5AnfixqraWrdtbfFi0zkUDqgHMU=
+        -----END CERTIFICATE-----
+    grpcOptions:
+      ssl-target-name-override: peer1.org1.example.com
+      hostnameOverride: peer1.org1.example.com
+  peer2.org1.example.com:
+    url: grpcs://peer2.org1.example.com:7051
+    tlsCACerts:
+      pem: |
+        -----BEGIN CERTIFICATE-----
+        MIICWTCCAf6gAwIBAgIRAKzrgP0WUixLnkt9vifchLswCgYIKoZIzj0EAwIwdjEL
+        MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+        cmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs
+        c2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMjIwNDA3MjAxOTAwWhcNMzIwNDA0MjAx
+        OTAwWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE
+        BxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0G
+        A1UEAxMWdGxzY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49
+        AwEHA0IABAdZidY7Bft1DsU9Le4qM6C9SyV7CfH487ceaRHIV1c47lInU4Be9NjZ
+        rVKWtzyxLXorARovD5E9Gv0+f9453mqjbTBrMA4GA1UdDwEB/wQEAwIBpjAdBgNV
+        HSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/BAUwAwEB/zApBgNV
+        HQ4EIgQgVunee0J+1IuzdL8QAyo1HJ6W0p2MGOqRP+xH6L0wUCwwCgYIKoZIzj0E
+        AwIDSQAwRgIhAIU2OODYYTrW24h4SIkNy7KzHbz5UZYMS5/TM3rVJHVIAiEAprxq
+        1PSU7JI01eHR5AnfixqraWrdtbfFi0zkUDqgHMU=
+        -----END CERTIFICATE-----
+    grpcOptions:
+      ssl-target-name-override: peer2.org1.example.com
+      hostnameOverride: peer2.org1.example.com

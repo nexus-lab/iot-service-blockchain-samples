@@ -41,22 +41,22 @@ Here is the directory structure after following the installation instructions:
 ### Prerequisites
 
 - Seven virtual or baremetal machines configured as shown in the [Testbed Setup](#testbed-setup)
-    section
+    section.
 - Install [Go](https://go.dev/) 1.16 or newer on **all peer nodes** (`peer*.org*.example.com`) and
     add it to your `PATH` environment variable.
 - Install [Docker](https://www.docker.com/) on **all peer nodes** (`peer*.org*.example.com`), add
     your user to the `docker` user group, and reboot your machine to make changes take effect.
 - Ensure that each node can connect to others using the hostname `*.example.com`.
-    A simple way to do this is editting `/etc/hosts`:
+    A simple way is to achieve this is editting `/etc/hosts`:
 
     ```
-    echo "172.16.0.2 orderer1.example.com" >> /etc/hosts
-    echo "172.16.0.3 orderer2.example.com" >> /etc/hosts
-    echo "172.16.0.4 orderer3.example.com" >> /etc/hosts
-    echo "172.16.0.5 peer1.org1.example.com" >> /etc/hosts
-    echo "172.16.0.6 peer2.org1.example.com" >> /etc/hosts
-    echo "172.16.0.7 peer1.org2.example.com" >> /etc/hosts
-    echo "172.16.0.8 peer2.org2.example.com" >> /etc/hosts
+    $ echo "172.16.0.2 orderer1.example.com" >> /etc/hosts
+    $ echo "172.16.0.3 orderer2.example.com" >> /etc/hosts
+    $ echo "172.16.0.4 orderer3.example.com" >> /etc/hosts
+    $ echo "172.16.0.5 peer1.org1.example.com" >> /etc/hosts
+    $ echo "172.16.0.6 peer2.org1.example.com" >> /etc/hosts
+    $ echo "172.16.0.7 peer1.org2.example.com" >> /etc/hosts
+    $ echo "172.16.0.8 peer2.org2.example.com" >> /etc/hosts
     ```
 
 ### Set up the network

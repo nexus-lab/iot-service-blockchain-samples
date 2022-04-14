@@ -1,0 +1,17 @@
+test:
+  name: device_register:Deregister
+
+  workers:
+    type: remote
+    number: 5
+
+  rounds:
+    - label: default
+      txNumber: 5000
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 50
+      workload:
+        module:
+        arguments:

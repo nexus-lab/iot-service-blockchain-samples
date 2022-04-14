@@ -1,0 +1,19 @@
+{
+  "name": "galileo",
+  "version": "1.0.0",
+  "description": "IoT Service Blockchain benchmark suite",
+  "private": true,
+  "engines": {
+    "node": "^14.13.1"
+  },
+  "scripts": {
+    "manager": "caliper launch manager",
+    "worker": "caliper launch worker"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@hyperledger/caliper-cli": "^0.4.2",
+    "@hyperledger/caliper-core": "^0.4.2",
+    "fabric-network": "^2.2.11"
+  }
+}
