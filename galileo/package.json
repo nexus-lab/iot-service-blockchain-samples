@@ -8,12 +8,23 @@
   },
   "scripts": {
     "manager": "caliper launch manager",
-    "worker": "caliper launch worker"
+    "worker": "caliper launch worker",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "license": "MIT",
   "dependencies": {
     "@hyperledger/caliper-cli": "^0.4.2",
     "@hyperledger/caliper-core": "^0.4.2",
-    "fabric-network": "^2.2.11"
+    "@nexus-lab/iot-service-blockchain": "^0.0.5",
+    "fabric-network": "^2.2.11",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "prettier": "^2.6.2"
   }
 }

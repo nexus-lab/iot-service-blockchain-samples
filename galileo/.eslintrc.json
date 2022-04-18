@@ -1,0 +1,7 @@
+{
+  "extends": ["airbnb-base", "prettier"],
+  "rules": {
+    "no-bitwise": "off",
+    "no-plusplus": "off"
+  }
+}

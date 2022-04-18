@@ -1,5 +1,5 @@
 name: Galileo Manager
-version: "2.0.0"
+version: '2.0.0'
 
 caliper:
   blockchain: fabric
@@ -7,7 +7,7 @@ caliper:
 channels:
   - channelName: mychannel
     contracts:
-    - id: iotservice
+      - id: iotservice
 
 organizations:
   - mspid: Org1MSP
@@ -16,19 +16,19 @@ organizations:
       discover: true
     identities:
       certificates:
-      - name: 'User1'
-        clientPrivateKey:
-          path: '../gaia/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk'
-        clientSignedCert:
-          path: '../gaia/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem'
+        - name: 'User1'
+          clientPrivateKey:
+            path: '../gaia/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/keystore/priv_sk'
+          clientSignedCert:
+            path: '../gaia/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem'
   - mspid: Org2MSP
     connectionProfile:
       path: './connectors/connection-org2.yaml'
       discover: true
     identities:
       certificates:
-      - name: 'User1'
-        clientPrivateKey:
-          path: '../gaia/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/priv_sk'
-        clientSignedCert:
-          path: '../gaia/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/User1@org2.example.com-cert.pem'
+        - name: 'User1'
+          clientPrivateKey:
+            path: '../gaia/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/priv_sk'
+          clientSignedCert:
+            path: '../gaia/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/User1@org2.example.com-cert.pem'

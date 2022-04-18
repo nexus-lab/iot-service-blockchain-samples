@@ -1,17 +1,17 @@
+# Depends on device_registry:Register
 test:
   name: device_register:Deregister
 
   workers:
     type: remote
-    number: 5
+    number: 1
 
   rounds:
     - label: default
-      txNumber: 5000
+      txNumber: 2
       rateControl:
         type: fixed-rate
         opts:
           tps: 50
       workload:
-        module:
-        arguments:
+        module: workloads/device-registry/deregister.js

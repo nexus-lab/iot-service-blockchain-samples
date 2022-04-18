@@ -6,6 +6,10 @@ Some sample projects to demonstrate usage of the IoT Service Blockchain and its 
 
   Scripts and instructions for setting up a multi-node Hyperledger Fabric network.
 
+- [**Galileo**](galileo/)
+
+  Benchmarking IoT Service Blockchain smart contracts using Hyperledger Caliper.
+
 - [**Explorer**](explorer/)
 
   Explore registered devices, services, and service requests/responses on IoT Service Blockchain.

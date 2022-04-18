@@ -1,0 +1,17 @@
+# Depends on service_registry:Register
+test:
+  name: service_registry:Deregister
+
+  workers:
+    type: remote
+    number: 1
+
+  rounds:
+    - label: default
+      txNumber: 2
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 50
+      workload:
+        module: workloads/service-registry/deregister.js

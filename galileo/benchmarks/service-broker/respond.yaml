@@ -1,17 +1,17 @@
+# Depends on service_broker:Request
 test:
-  name: service_register:Get
+  name: service_broker:Respond
 
   workers:
     type: remote
-    number: 5
+    number: 1
 
   rounds:
     - label: default
-      txNumber: 5000
+      txNumber: 2
       rateControl:
         type: fixed-rate
         opts:
           tps: 50
       workload:
-        module:
-        arguments:
+        module: workloads/service-broker/respond.js
