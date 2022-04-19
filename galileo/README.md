@@ -43,7 +43,13 @@ Benchmarking IoT Service Blockchain smart contracts using Hyperledger Caliper.
   $ echo "172.16.0.106 worker5.caliper.example.com" >> /etc/hosts
   ```
 
-### Install
+- Make sure incoming traffic to port 1833 of the **Caliper manager node**
+  (`manager.caliper.example.com`) and port 9100 of **all Hyperledger Fabric nodes**
+  (`orderer*.example.com` and `peer*.org*.example.com`) is allowed by the network firewall.
+  You may optionally allow port 9090 of the **Caliper manager node** (`manager.caliper.example.com`)
+  as well to access the Prometheus web portal.
+
+### Set up benchmarks
 
 1. Set up a multi-node Hyperledger Fabric testbed as instructed by [Gaia](../gaia/README.md).
 
@@ -132,6 +138,46 @@ Benchmarking IoT Service Blockchain smart contracts using Hyperledger Caliper.
            # replace with file content of gaia/crypto-config/peerOrganizations/org2.example.com/peers/peer2.org2.example.com/tls/ca.crt
        ...
    ...
+   ```
+
+### Set up system resource monitors
+
+1. Download, extract, and install Prometheus node exporter to **all Hyperledger Fabric nodes**
+   (`orderer*.example.com` and `peer*.org*.example.com`):
+
+   ```
+   ([orderer*|peer*.org*].example.com) $ curl -L https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz \
+                                              -o /tmp/node_exporter-1.3.1.linux-amd64.tar.gz
+   ([orderer*|peer*.org*].example.com) $ tar -xvf /tmp/node_exporter-1.3.1.linux-amd64.tar.gz -C /tmp
+   ([orderer*|peer*.org*].example.com) $ sudo install \
+                                              -o root \
+                                              -g root /tmp/node_exporter-1.3.1.linux-amd64/node_exporter /usr/local/bin
+   ```
+
+1. Start the node exporter on **all Hyperledger Fabric nodes** (`orderer*.example.com` and
+   `peer*.org*.example.com`) in separate terminals or screens:
+
+   ```
+   ([orderer*|peer*.org*].example.com) $ /usr/local/bin/node_exporter
+   ```
+
+1. Download, extract, and install Prometheus to the **Caliper manager node**
+   (`manager.caliper.example.com`).
+
+   ```
+   (manager.caliper.example.com) $ curl -L https://github.com/prometheus/prometheus/releases/download/v2.34.0/prometheus-2.34.0.linux-amd64.tar.gz \
+                                        -o /tmp/prometheus-2.34.0.linux-amd64.tar.gz
+   ([orderer*|peer*.org*].example.com) $ tar -xvf /tmp/prometheus-2.34.0.linux-amd64.tar.gz -C /tmp
+   ([orderer*|peer*.org*].example.com) $ sudo install \
+                                              -o root \
+                                              -g root /tmp/prometheus-2.34.0.linux-amd64/prometheus /usr/local/bin
+   ```
+
+1. On the **Caliper manager node** (`manager.caliper.example.com`), change working directory to
+   `galileo` and start Prometheus in a separate terminal or screen:
+
+   ```
+   (manager.caliper.example.com) $ /usr/local/bin/prometheus --config.file=./prometheus.yaml
    ```
 
 ### Run Benchmarks

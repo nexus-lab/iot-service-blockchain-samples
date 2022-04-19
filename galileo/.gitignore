@@ -131,3 +131,6 @@ dist
 
 # Caliper files
 report.html
+
+# Prometheus files
+data/

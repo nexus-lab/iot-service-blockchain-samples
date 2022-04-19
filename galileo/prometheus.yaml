@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 1s
+
+scrape_configs:
+  - job_name: node
+    static_configs:
+      - targets:
+          - orderer1.example.com:9100
+          - orderer2.example.com:9100
+          - orderer3.example.com:9100
+          - peer1.org1.example.com:9100
+          - peer2.org1.example.com:9100
+          - peer1.org2.example.com:9100
+          - peer2.org2.example.com:9100
