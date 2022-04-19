@@ -4,7 +4,7 @@ const Base = require('../base');
 class Workload extends Base {
   createNextTransaction(mspId, identityName) {
     const deviceId = this.getDeviceId(mspId, identityName);
-    const device = new Device(deviceId, mspId, `device_${mspId}_${identityName}`);
+    const device = new Device(deviceId, mspId, `device_${mspId}_${deviceId}`);
 
     return {
       contractId: 'iotservice',

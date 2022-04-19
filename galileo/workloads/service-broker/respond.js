@@ -5,9 +5,9 @@ const Base = require('../base');
 const { uuid } = require('../helper');
 
 class Workload extends Base {
-  // eslint-disable-next-line class-methods-use-this
   createNextTransaction(mspId, identityName) {
-    const requestId = uuid(mspId, identityName);
+    const deviceId = this.getDeviceId(mspId, identityName);
+    const requestId = uuid(mspId, deviceId);
     const response = new ServiceResponse(requestId, moment(), 0, 'OK');
 
     return {
