@@ -10,9 +10,10 @@ test:
     - label: default
       txNumber: 2000
       rateControl:
-        type: fixed-rate
+        type: fixed-load
         opts:
-          tps: 1500
+          startingTps: 1000
+          transactionLoad: 50
       workload:
         module: workloads/lite/service-registry/get-all.js
 
