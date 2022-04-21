@@ -1,0 +1,64 @@
+# Depends on service_registry:Register
+test:
+  name: service_registry:GetAll
+
+  workers:
+    type: remote
+    number: 5
+
+  rounds:
+    - label: default
+      txNumber: 2000
+      rateControl:
+        type: fixed-rate
+        opts:
+          tps: 1500
+      workload:
+        module: workloads/full/service-registry/get-all.js
+
+monitors:
+  resource:
+    - module: prometheus
+      options:
+        url: 'http://manager.caliper.example.com:9090'
+        metrics:
+          include:
+            - orderer
+            - peer
+          queries:
+            - name: Avg Memory (MB)
+              query: 'sum(node_memory_MemTotal_bytes - node_memory_MemFree_bytes - node_memory_Buffers_bytes - node_memory_Cached_bytes) by (instance)'
+              step: 1
+              label: instance
+              statistic: avg
+              multiplier: 0.000001
+            - name: CPU (%)
+              query: "avg(1- rate(node_cpu_seconds_total{mode='idle'}[10s])) by (instance)"
+              step: 1
+              label: instance
+              statistic: avg
+              multiplier: 100
+            - name: Network In (MB)
+              query: "sum(rate(node_network_receive_bytes_total{device!~'lo|docker.+'}[10s])) by (instance)"
+              step: 1
+              label: instance
+              statistic: sum
+              multiplier: 0.000001
+            - name: Network Out (MB)
+              query: "sum(rate(node_network_transmit_bytes_total{device!~'lo|docker.+'}[10s])) by (instance)"
+              step: 1
+              label: instance
+              statistic: sum
+              multiplier: 0.000001
+            - name: Disc Write (MB)
+              query: 'sum(rate(node_disk_written_bytes_total[10s])) by (instance)'
+              step: 1
+              label: instance
+              statistic: sum
+              multiplier: 0.000001
+            - name: Disc Read (MB)
+              query: 'sum(rate(node_disk_written_bytes_total[10s])) by (instance)'
+              step: 1
+              label: instance
+              statistic: sum
+              multiplier: 0.000001

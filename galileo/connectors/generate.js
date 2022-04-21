@@ -18,15 +18,13 @@ function renderOrganization(mspIndex, workerIndex, identitiesPerOrg) {
     .map((_, i) => renderOneIdentity(mspIndex, workerIndex, i + 1, identitiesPerOrg))
     .join('\n');
 
-  return (
-    `  - mspid: Org${mspIndex}MSP
+  return `  - mspid: Org${mspIndex}MSP
     connectionProfile:
       path: './connectors/connection-org${mspIndex}.yaml'
       discover: true
     identities:
       certificates:
-` + identities
-  );
+${identities}`;
 }
 
 function render(workerIndex, orgCount, identitiesPerWorker) {
@@ -34,8 +32,7 @@ function render(workerIndex, orgCount, identitiesPerWorker) {
     .fill(0)
     .map((_, i) => renderOrganization(i + 1, workerIndex, identitiesPerWorker / orgCount))
     .join('\n');
-  return (
-    `name: Galileo Worker ${workerIndex + 1}
+  return `name: Galileo Worker ${workerIndex + 1}
 version: '2.0.0'
 
 caliper:
@@ -47,14 +44,18 @@ channels:
       - id: iotservice
 
 organizations:
-` + organizations
-  );
+${organizations}`;
 }
 
+/* eslint-disable no-console */
 if (process.argv.length !== 5) {
   console.error('Usage: node ./generate.js <number_of_orgs> <identites_per_worker> <worker_index>');
 } else {
   console.log(
-    render(parseInt(process.argv[4]) - 1, parseInt(process.argv[2]), parseInt(process.argv[3]))
+    render(
+      parseInt(process.argv[4], 10) - 1,
+      parseInt(process.argv[2], 10),
+      parseInt(process.argv[3], 10)
+    )
   );
 }
