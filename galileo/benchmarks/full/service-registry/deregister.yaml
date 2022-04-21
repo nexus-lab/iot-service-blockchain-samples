@@ -10,9 +10,10 @@ test:
     - label: default
       txNumber: 2000
       rateControl:
-        type: fixed-rate
+        type: fixed-load
         opts:
-          tps: 23
+          startingTps: 100
+          transactionLoad: 100
       workload:
         module: workloads/full/service-registry/deregister.js
 
@@ -57,7 +58,7 @@ monitors:
               statistic: sum
               multiplier: 0.000001
             - name: Disc Read (MB)
-              query: 'sum(rate(node_disk_written_bytes_total[10s])) by (instance)'
+              query: 'sum(rate(node_disk_read_bytes_total[10s])) by (instance)'
               step: 1
               label: instance
               statistic: sum
