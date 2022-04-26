@@ -12,8 +12,8 @@ test:
       rateControl:
         type: fixed-load
         opts:
-          startingTps: 100
-          transactionLoad: 100
+          startingTps: 1000
+          transactionLoad: 1000
       workload:
         module: workloads/lite/device-registry/get-all.js
 
