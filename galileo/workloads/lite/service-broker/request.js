@@ -8,7 +8,7 @@ const { uuid } = require('../helper');
 class Workload extends Base {
   createNextTransaction(mspId, identityName) {
     const deviceId = this.getDeviceId(mspId, identityName);
-    const service = new Service(`service_${mspId}_${deviceId}_${this.txIndex}`, deviceId, mspId, 1);
+    const service = new Service(`service_${mspId}_${deviceId}_0`, deviceId, mspId, 1);
     const requestId = uuid(mspId, deviceId, this.txIndex);
     const request = new ServiceRequest(requestId, moment(), service, 'GET', [mspId, deviceId]);
 
