@@ -49,7 +49,9 @@ ${organizations}`;
 
 /* eslint-disable no-console */
 if (process.argv.length !== 5) {
-  console.error('Usage: node ./generate.js <number_of_orgs> <identites_per_worker> <worker_index>');
+  console.error(
+    'Usage: node ./generate_connector_config.js <number_of_orgs> <identites_per_worker> <worker_index>'
+  );
 } else {
   console.log(
     render(
